@@ -4,6 +4,7 @@
 #include <allegro5/allegro.h>
 #include <vector>
 #include "MapSquare.h"
+#include "Animation.h"
 
 class Character
 {
@@ -22,6 +23,8 @@ public:
 	ALLEGRO_BITMAP* getImage();
 	void loadImages(int initial_image);
 	bool isCollision(int direction, int height, int width, std::vector<std::vector<MapSquare*>> map);
+    
+    Animation m_animation;
 	
 };
 

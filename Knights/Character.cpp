@@ -11,56 +11,55 @@ Character::~Character(void)
 
 void Character::loadImages(int initial_image) //Loads the relevant images based on the ID of the Character
 {
+    Animation animation;
+    
 	if(initial_image == 0)
 	{
-		images[0] = al_load_bitmap("manU.bmp");
-		images[1] = al_load_bitmap("manU2.bmp");
-		images[2] = al_load_bitmap("manU3.bmp");
-		images[3] = al_load_bitmap("manR.bmp");
-		images[4] = al_load_bitmap("manR2.bmp");
-		images[5] = al_load_bitmap("manR3.bmp");
-		images[6] = al_load_bitmap("manD.bmp");
-		images[7] = al_load_bitmap("manD2.bmp");
-		images[8] = al_load_bitmap("manD3.bmp");
-		images[9] = al_load_bitmap("manL.bmp");
-		images[10] = al_load_bitmap("manL2.bmp");
-		images[11] = al_load_bitmap("manL3.bmp");
-        
+        animation.addFrame("manU.bmp");
+		animation.addFrame("manU2.bmp");
+		animation.addFrame("manU3.bmp");
+		animation.addFrame("manR.bmp");
+		animation.addFrame("manR2.bmp");
+		animation.addFrame("manR3.bmp");
+		animation.addFrame("manD.bmp");
+		animation.addFrame("manD2.bmp");
+		animation.addFrame("manD3.bmp");
+		animation.addFrame("manL.bmp");
+		animation.addFrame("manL2.bmp");
+		animation.addFrame("manL3.bmp");
 	}
 	else if(initial_image == 1)
 	{
-		images[0] = al_load_bitmap("froggyU.bmp");
-		images[1] = al_load_bitmap("froggyU.bmp");
-		images[2] = al_load_bitmap("froggyU.bmp");
-		images[3] = al_load_bitmap("froggyR.bmp");
-		images[4] = al_load_bitmap("froggyR.bmp");
-		images[5] = al_load_bitmap("froggyR.bmp");
-		images[6] = al_load_bitmap("froggyD.bmp");
-		images[7] = al_load_bitmap("froggyD.bmp");
-		images[8] = al_load_bitmap("froggyD.bmp");
-		images[9] = al_load_bitmap("froggyL.bmp");
-		images[10] = al_load_bitmap("froggyL.bmp");
-		images[11] = al_load_bitmap("froggyL.bmp");
+		animation.addFrame("froggyU.bmp");
+		animation.addFrame("froggyU.bmp");
+		animation.addFrame("froggyU.bmp");
+		animation.addFrame("froggyR.bmp");
+		animation.addFrame("froggyR.bmp");
+		animation.addFrame("froggyR.bmp");
+		animation.addFrame("froggyD.bmp");
+		animation.addFrame("froggyD.bmp");
+		animation.addFrame("froggyD.bmp");
+		animation.addFrame("froggyL.bmp");
+		animation.addFrame("froggyL.bmp");
+		animation.addFrame("froggyL.bmp");
 	}
 	else if(initial_image == 2)
 	{
-		images[0] = al_load_bitmap("globbyU.bmp");
-		images[1] = al_load_bitmap("globbyU.bmp");
-		images[2] = al_load_bitmap("globbyU.bmp");
-		images[3] = al_load_bitmap("globbyR.bmp");
-		images[4] = al_load_bitmap("globbyR.bmp");
-		images[5] = al_load_bitmap("globbyR.bmp");
-		images[6] = al_load_bitmap("globbyD.bmp");
-		images[7] = al_load_bitmap("globbyD.bmp");
-		images[8] = al_load_bitmap("globbyD.bmp");
-		images[9] = al_load_bitmap("globbyL.bmp");
-		images[10] = al_load_bitmap("globbyL.bmp");
-		images[11] = al_load_bitmap("globbyL.bmp");
+		animation.addFrame("globbyU.bmp");
+		animation.addFrame("globbyU.bmp");
+		animation.addFrame("globbyU.bmp");
+		animation.addFrame("globbyR.bmp");
+		animation.addFrame("globbyR.bmp");
+		animation.addFrame("globbyR.bmp");
+		animation.addFrame("globbyD.bmp");
+		animation.addFrame("globbyD.bmp");
+		animation.addFrame("globbyD.bmp");
+		animation.addFrame("globbyL.bmp");
+		animation.addFrame("globbyL.bmp");
+		animation.addFrame("globbyL.bmp");
 	}
     
-    for (int i = 0; i <= 11; i++) {
-        al_convert_mask_to_alpha(images[i], al_map_rgb(255, 0, 255));
-    }
+    m_animation = animation;
 }
 
 ALLEGRO_BITMAP* Character::getImage() //Returns an image based on the animation_timer and the direction in which the player is moving
@@ -69,80 +68,80 @@ ALLEGRO_BITMAP* Character::getImage() //Returns an image based on the animation_
 	{
 		if(internal_animation_timer/25 < 1)
 		{
-			return images[0];
+			return m_animation.getFrame(0);
 		}
 		if(internal_animation_timer/25 >= 1 && internal_animation_timer/25 < 2)
 		{
-			return images[1];
+			return m_animation.getFrame(1);
 		}
 		if(internal_animation_timer/25 >= 2 && internal_animation_timer/25 < 3)
 		{
-			return images[0];
+			return m_animation.getFrame(0);
 		}
 		if(internal_animation_timer/25 >= 3 && internal_animation_timer/25 <= 4)
 		{
-			return images[2];
+			return m_animation.getFrame(2);
 		}
 	}
 	if(last_direction == 3 || last_direction == 4)
 	{
 		if(internal_animation_timer/25 < 1)
 		{
-			return images[3];
+			return m_animation.getFrame(3);
 		}
 		if(internal_animation_timer/25 >= 1 && internal_animation_timer/25 < 2)
 		{
-			return images[4];
+			return m_animation.getFrame(4);
 		}
 		if(internal_animation_timer/25 >= 2 && internal_animation_timer/25 < 3)
 		{
-			return images[3];
+			return m_animation.getFrame(3);
 		}
 		if(internal_animation_timer/25 >= 3 && internal_animation_timer/25 <= 4)
 		{
-			return images[5];
+			return m_animation.getFrame(5);
 		}
 	}
 	if(last_direction == 5 || last_direction == 6)
 	{
 		if(internal_animation_timer/25 < 1)
 		{
-			return images[6];
+			return m_animation.getFrame(6);
 		}
 		if(internal_animation_timer/25 >= 1 && internal_animation_timer/25 < 2)
 		{
-			return images[7];
+			return m_animation.getFrame(7);
 		}
 		if(internal_animation_timer/25 >= 2 && internal_animation_timer/25 < 3)
 		{
-			return images[6];
+			return m_animation.getFrame(6);
 		}
 		if(internal_animation_timer/25 >= 3 && internal_animation_timer/25 <= 4)
 		{
-			return images[8];
+			return m_animation.getFrame(8);
 		}
 	}
 	if(last_direction == 7 || last_direction == 8)
 	{
 		if(internal_animation_timer/25 < 1)
 		{
-			return images[9];
+			return m_animation.getFrame(9);
 		}
 		if(internal_animation_timer/25 >= 1 && internal_animation_timer/25 < 2)
 		{
-			return images[10];
+			return m_animation.getFrame(10);
 		}
 		if(internal_animation_timer/25 >= 2 && internal_animation_timer/25 < 3)
 		{
-			return images[9];
+			return m_animation.getFrame(9);
 		}
 		if(internal_animation_timer/25 >= 3 && internal_animation_timer/25 <= 4)
 		{
-			return images[11];
+			return m_animation.getFrame(11);
 		}
 	}
 	
-	return images[6];
+	return m_animation.getFrame(6);
 	
 
 }

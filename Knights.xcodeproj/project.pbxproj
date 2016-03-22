@@ -25,17 +25,17 @@
 		B859108318CE4A9000D31265 /* AllegroMemfile-5.1.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B859107818CE4A9000D31265 /* AllegroMemfile-5.1.framework */; };
 		B859108418CE4A9000D31265 /* AllegroPrimitives-5.1.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B859107918CE4A9000D31265 /* AllegroPrimitives-5.1.framework */; };
 		B859108518CE4A9000D31265 /* AllegroTTF-5.1.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B859107A18CE4A9000D31265 /* AllegroTTF-5.1.framework */; };
-		B859108618CE4AB000D31265 /* Allegro-5.1.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = B859107018CE4A9000D31265 /* Allegro-5.1.framework */; };
-		B859108718CE4AB000D31265 /* AllegroAcodec-5.1.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = B859107118CE4A9000D31265 /* AllegroAcodec-5.1.framework */; };
-		B859108818CE4AB000D31265 /* AllegroAudio-5.1.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = B859107218CE4A9000D31265 /* AllegroAudio-5.1.framework */; };
-		B859108918CE4AB000D31265 /* AllegroColor-5.1.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = B859107318CE4A9000D31265 /* AllegroColor-5.1.framework */; };
-		B859108A18CE4AB000D31265 /* AllegroDialog-5.1.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = B859107418CE4A9000D31265 /* AllegroDialog-5.1.framework */; };
-		B859108B18CE4AB000D31265 /* AllegroFont-5.1.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = B859107518CE4A9000D31265 /* AllegroFont-5.1.framework */; };
-		B859108C18CE4AB000D31265 /* AllegroImage-5.1.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = B859107618CE4A9000D31265 /* AllegroImage-5.1.framework */; };
-		B859108D18CE4AB000D31265 /* AllegroMain-5.1.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = B859107718CE4A9000D31265 /* AllegroMain-5.1.framework */; };
-		B859108E18CE4AB000D31265 /* AllegroMemfile-5.1.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = B859107818CE4A9000D31265 /* AllegroMemfile-5.1.framework */; };
-		B859108F18CE4AB000D31265 /* AllegroPrimitives-5.1.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = B859107918CE4A9000D31265 /* AllegroPrimitives-5.1.framework */; };
-		B859109018CE4AB000D31265 /* AllegroTTF-5.1.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = B859107A18CE4A9000D31265 /* AllegroTTF-5.1.framework */; };
+		B859108618CE4AB000D31265 /* Allegro-5.1.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = B859107018CE4A9000D31265 /* Allegro-5.1.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		B859108718CE4AB000D31265 /* AllegroAcodec-5.1.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = B859107118CE4A9000D31265 /* AllegroAcodec-5.1.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		B859108818CE4AB000D31265 /* AllegroAudio-5.1.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = B859107218CE4A9000D31265 /* AllegroAudio-5.1.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		B859108918CE4AB000D31265 /* AllegroColor-5.1.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = B859107318CE4A9000D31265 /* AllegroColor-5.1.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		B859108A18CE4AB000D31265 /* AllegroDialog-5.1.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = B859107418CE4A9000D31265 /* AllegroDialog-5.1.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		B859108B18CE4AB000D31265 /* AllegroFont-5.1.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = B859107518CE4A9000D31265 /* AllegroFont-5.1.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		B859108C18CE4AB000D31265 /* AllegroImage-5.1.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = B859107618CE4A9000D31265 /* AllegroImage-5.1.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		B859108D18CE4AB000D31265 /* AllegroMain-5.1.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = B859107718CE4A9000D31265 /* AllegroMain-5.1.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		B859108E18CE4AB000D31265 /* AllegroMemfile-5.1.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = B859107818CE4A9000D31265 /* AllegroMemfile-5.1.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		B859108F18CE4AB000D31265 /* AllegroPrimitives-5.1.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = B859107918CE4A9000D31265 /* AllegroPrimitives-5.1.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		B859109018CE4AB000D31265 /* AllegroTTF-5.1.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = B859107A18CE4A9000D31265 /* AllegroTTF-5.1.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		B85910F218CE4DC900D31265 /* death.bmp in Resources */ = {isa = PBXBuildFile; fileRef = B85910AE18CE4DC900D31265 /* death.bmp */; };
 		B85910F318CE4DC900D31265 /* fish.bmp in Resources */ = {isa = PBXBuildFile; fileRef = B85910AF18CE4DC900D31265 /* fish.bmp */; };
 		B85910F418CE4DC900D31265 /* froggyD.bmp in Resources */ = {isa = PBXBuildFile; fileRef = B85910B018CE4DC900D31265 /* froggyD.bmp */; };
@@ -117,6 +117,7 @@
 		B8A00ACA18D97B7600885742 /* GameLevel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B8A00AC818D97B7600885742 /* GameLevel.cpp */; };
 		B8A00ACE18D99B1500885742 /* PTS75F.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B8A00ACD18D99B1500885742 /* PTS75F.ttf */; };
 		B8A00AD118D99D5000885742 /* GameEngine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B8A00ACF18D99D5000885742 /* GameEngine.cpp */; };
+		B8BE4B111CA1B8A300DEF65D /* Animation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B8BE4B0F1CA1B8A300DEF65D /* Animation.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -280,6 +281,8 @@
 		B8A00ACD18D99B1500885742 /* PTS75F.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = PTS75F.ttf; sourceTree = "<group>"; };
 		B8A00ACF18D99D5000885742 /* GameEngine.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameEngine.cpp; sourceTree = "<group>"; };
 		B8A00AD018D99D5000885742 /* GameEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameEngine.h; sourceTree = "<group>"; };
+		B8BE4B0F1CA1B8A300DEF65D /* Animation.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Animation.cpp; sourceTree = "<group>"; };
+		B8BE4B121CA1BB6800DEF65D /* Animation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Animation.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -391,6 +394,8 @@
 				B859114C18CE5BC500D31265 /* Monster.cpp */,
 				B859114D18CE5BC500D31265 /* Monster.h */,
 				B859114E18CE5BC500D31265 /* Player.cpp */,
+				B8BE4B0F1CA1B8A300DEF65D /* Animation.cpp */,
+				B8BE4B121CA1BB6800DEF65D /* Animation.h */,
 				B859114F18CE5BC500D31265 /* Player.h */,
 				B859115018CE5BC500D31265 /* State.cpp */,
 				B859115118CE5BC500D31265 /* State.h */,
@@ -548,7 +553,7 @@
 		B859102F18CE453D00D31265 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0500;
+				LastUpgradeCheck = 0610;
 				TargetAttributes = {
 					B859105918CE45AE00D31265 = {
 						TestTargetID = B859103818CE45AE00D31265;
@@ -680,6 +685,7 @@
 				B8A00AD118D99D5000885742 /* GameEngine.cpp in Sources */,
 				B8A00ACA18D97B7600885742 /* GameLevel.cpp in Sources */,
 				B859115818CE5BC500D31265 /* Item.cpp in Sources */,
+				B8BE4B111CA1B8A300DEF65D /* Animation.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -732,12 +738,15 @@
 		B859103318CE453D00D31265 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				ONLY_ACTIVE_ARCH = YES;
 			};
 			name = Debug;
 		};
 		B859103418CE453D00D31265 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 			};
 			name = Release;
 		};

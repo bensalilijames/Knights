@@ -9,23 +9,27 @@
 class Character
 {
 public:
-	Character(void);
-	~Character(void);
-
 	int x_position;
 	int y_position;
-	int last_direction;
+	int last_direction = 0;
+    int current_direction = 0;
 	ALLEGRO_BITMAP* images[12];
-	int internal_animation_timer;
 	int offencePotential;
 	int defencePotential;
 
+    int health;
+    int max_health;
+    
 	ALLEGRO_BITMAP* getImage();
 	void loadImages(int initial_image);
 	bool isCollision(int direction, int height, int width, std::vector<std::vector<MapSquare*>> map);
     
-    Animation m_animation;
-	
+    Animation m_currentAnimation;
+    std::vector<Animation> m_animations;
+    
+    void createAnimation(const std::vector<const char*> paths);
+    void setActiveAnimation(int animationId);
+    void updateAnimation();
 };
 
 #endif

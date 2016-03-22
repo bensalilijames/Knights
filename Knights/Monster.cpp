@@ -3,20 +3,11 @@
 #include <stdlib.h>
 #include "Items.h"
 
-Monster::Monster(void)
-{
-    internal_animation_timer = 0;
-}
-
-
-Monster::~Monster(void)
-{
-}
-
 void Monster::handleMovement(GameState* game)
 {
 	if(spawned == true)
 	{
+        last_direction = current_direction;
 		if(inCombat == false) //If Monster isn’t in combat then make it move randomly
 		{
 			if(isMoving == false)
@@ -24,29 +15,29 @@ void Monster::handleMovement(GameState* game)
 				if((rand() % 200)==1)
 				{
 					isMoving = true;
-					last_direction = 2 * (rand() % 4) + 1;
+					current_direction = 2 * (rand() % 4) + 1;
 				}
 			}
 			else
 			{
-				if (!isCollision(last_direction,49,49,game->currentLevel->levelMap))
+				if (!isCollision(current_direction,49,49,game->currentLevel->levelMap))
 				{	
-					if(last_direction == 1) //UP
+					if(current_direction == 1) //UP
 					{
 						y_position--;
 					}
 		
-					if(last_direction == 5) //DOWN
+					if(current_direction == 5) //DOWN
 					{
 						y_position++;
 					}
 
-					if(last_direction == 3) //RIGHT
+					if(current_direction == 3) //RIGHT
 					{
 						x_position++;
 					}
 
-					if(last_direction == 7) //LEFT
+					if(current_direction == 7) //LEFT
 					{
 						x_position--;
 					}
@@ -84,12 +75,13 @@ void Monster::handleMovement(GameState* game)
 				y_position--;
 				last_direction = 1;
 			}
-			internal_animation_timer++;
-			if(internal_animation_timer > 1)
+            
+            //todo:: fix combat on monsters
+            /*if(internal_animation_timer > 1)
 			{
 				internal_animation_timer = 0;
 				doCombat(game);
-			}
+			}*/
 		}
 	}
 }

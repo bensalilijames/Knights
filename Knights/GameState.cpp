@@ -67,37 +67,39 @@ void GameState::HandleEvents(GameEngine* gameEngine) {
     }
     
     mainCharacter->is_moving = false;
+    mainCharacter->last_direction = mainCharacter->current_direction;
+    mainCharacter->current_direction = 0;
     
     al_get_keyboard_state(&keyboardState);
     if(al_key_down(&keyboardState, ALLEGRO_KEY_UP) ||
        al_key_down(&keyboardState, ALLEGRO_KEY_W)) {
         if(!mainCharacter->isCollision(1,40,30,currentLevel->levelMap))
             mainCharacter->y_position --;
-        mainCharacter->last_direction = 1;
+        mainCharacter->current_direction = 1;
         mainCharacter->is_moving = true;
     }
     if(al_key_down(&keyboardState, ALLEGRO_KEY_DOWN) ||
        al_key_down(&keyboardState, ALLEGRO_KEY_S)) {
         if(!mainCharacter->isCollision(5,40,30,currentLevel->levelMap))
             mainCharacter->y_position ++;
-        mainCharacter->last_direction = 5;
+        mainCharacter->current_direction = 5;
         mainCharacter->is_moving = true;
     }
     if(al_key_down(&keyboardState, ALLEGRO_KEY_RIGHT) ||
        al_key_down(&keyboardState, ALLEGRO_KEY_D)) {
         if(!mainCharacter->isCollision(3,40,30,currentLevel->levelMap))
             mainCharacter->x_position ++;
-        mainCharacter->last_direction = 3;
+        mainCharacter->current_direction = 3;
         mainCharacter->is_moving = true;
     }
     if(al_key_down(&keyboardState, ALLEGRO_KEY_LEFT) ||
        al_key_down(&keyboardState, ALLEGRO_KEY_A)) {
         if(!mainCharacter->isCollision(7,40,30,currentLevel->levelMap))
             mainCharacter->x_position --;
-        mainCharacter->last_direction = 7;
+        mainCharacter->current_direction = 7;
         mainCharacter->is_moving = true;
     }
-    if(mainCharacter->is_moving) mainCharacter->internal_animation_timer++;
+//    if(mainCharacter->is_moving) mainCharacter->internal_animation_timer++;
     
     while(gameEngine->pollEvent()) {
         
@@ -171,13 +173,16 @@ void GameState::HandleEvents(GameEngine* gameEngine) {
 }
 
 void GameState::Update(GameEngine* gameEngine) {
-    mainCharacter->handleAnimation(); //Causes playerís sprite to change while they move
-    mainCharacter->is_moving = false;
+    mainCharacter->updateAnimation(); //Causes playerís sprite to change while they move
+    //mainCharacter->is_moving = false;
     
-    for (std::vector<Monster*>::iterator itMonster = currentLevel->monsters.begin() ; itMonster != currentLevel->monsters.end(); ++itMonster) {
-        if((*itMonster)->spawned == true)
+    auto monsters = currentLevel->monsters;
+    
+    for (auto &monster : monsters) {
+        if(monster->spawned == true)
         {
-            (*itMonster)->handleMovement(this);
+            monster->handleMovement(this);
+            monster->updateAnimation();
         }
     }
     

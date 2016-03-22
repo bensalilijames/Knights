@@ -10,21 +10,22 @@ class Inventory;
 class Player: public Character
 {
 public:
-	Player(void);
-	~Player(void);
-
-	void handleAnimation();
+    Player();
+    
+    ~Player()
+    {
+        delete inventory;
+    }
+    
 	void reduceHealth(int maxReduction);
 	void increaseHealth(int increment);
 
-	bool isDead;
+	bool isDead = false;
 
-	int selected_weapon;
+	int selected_weapon = -1;
 	int is_moving;
-	int health;
-	int experience;
-	int max_health;
-    
+	int experience = 0;
+	
     Inventory* inventory;
 };
 

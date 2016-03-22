@@ -10,15 +10,10 @@ class GameState;
 class Monster: public Character
 {
 public:
-	Monster(void);
-	~Monster(void);
-
 	int collision[4];
 	bool isMoving;
 	bool inCombat;
 	bool spawned;
-	int health;
-	int max_health;
 
 	void handleMovement(GameState* game);
 	void doCombat(GameState* game);

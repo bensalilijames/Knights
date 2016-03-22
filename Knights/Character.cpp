@@ -1,149 +1,82 @@
 #include "Character.h"
 
-Character::Character(void)
+void Character::createAnimation(const std::vector<const char *> paths)
 {
-}
-
-
-Character::~Character(void)
-{
+    Animation animation;
+    for (auto &path : paths)
+    {
+        animation.addFrame(path);
+    }
+    m_animations.push_back(animation);
 }
 
 void Character::loadImages(int initial_image) //Loads the relevant images based on the ID of the Character
 {
-    Animation animation;
-    
 	if(initial_image == 0)
 	{
-        animation.addFrame("manU.bmp");
-		animation.addFrame("manU2.bmp");
-		animation.addFrame("manU3.bmp");
-		animation.addFrame("manR.bmp");
-		animation.addFrame("manR2.bmp");
-		animation.addFrame("manR3.bmp");
-		animation.addFrame("manD.bmp");
-		animation.addFrame("manD2.bmp");
-		animation.addFrame("manD3.bmp");
-		animation.addFrame("manL.bmp");
-		animation.addFrame("manL2.bmp");
-		animation.addFrame("manL3.bmp");
-	}
+        createAnimation({"manU.bmp", "manU2.bmp", "manU.bmp", "manU3.bmp"});
+        createAnimation({"manR.bmp", "manR2.bmp", "manR.bmp", "manR3.bmp"});
+        createAnimation({"manD.bmp", "manD2.bmp", "manD.bmp", "manD3.bmp"});
+        createAnimation({"manL.bmp", "manL2.bmp", "manL.bmp", "manL3.bmp"});
+    }
 	else if(initial_image == 1)
 	{
-		animation.addFrame("froggyU.bmp");
-		animation.addFrame("froggyU.bmp");
-		animation.addFrame("froggyU.bmp");
-		animation.addFrame("froggyR.bmp");
-		animation.addFrame("froggyR.bmp");
-		animation.addFrame("froggyR.bmp");
-		animation.addFrame("froggyD.bmp");
-		animation.addFrame("froggyD.bmp");
-		animation.addFrame("froggyD.bmp");
-		animation.addFrame("froggyL.bmp");
-		animation.addFrame("froggyL.bmp");
-		animation.addFrame("froggyL.bmp");
+        createAnimation({"froggyU.bmp"});
+        createAnimation({"froggyR.bmp"});
+        createAnimation({"froggyD.bmp"});
+        createAnimation({"froggyL.bmp"});
 	}
 	else if(initial_image == 2)
 	{
-		animation.addFrame("globbyU.bmp");
-		animation.addFrame("globbyU.bmp");
-		animation.addFrame("globbyU.bmp");
-		animation.addFrame("globbyR.bmp");
-		animation.addFrame("globbyR.bmp");
-		animation.addFrame("globbyR.bmp");
-		animation.addFrame("globbyD.bmp");
-		animation.addFrame("globbyD.bmp");
-		animation.addFrame("globbyD.bmp");
-		animation.addFrame("globbyL.bmp");
-		animation.addFrame("globbyL.bmp");
-		animation.addFrame("globbyL.bmp");
+        createAnimation({"globbyU.bmp"});
+        createAnimation({"globbyR.bmp"});
+        createAnimation({"globbyD.bmp"});
+        createAnimation({"globbyL.bmp"});
 	}
+    setActiveAnimation(0);
+}
+
+void Character::setActiveAnimation(int animationId)
+{
+    m_currentAnimation = m_animations.at(animationId);
+    m_currentAnimation.reset();
+}
+
+void Character::updateAnimation()
+{
+    if(current_direction != last_direction)
+    {
+        if(current_direction == 1 || current_direction == 2)
+        {
+            setActiveAnimation(0);
+        }
+        else if(current_direction == 3 || current_direction == 4)
+        {
+            setActiveAnimation(1);
+        }
+        else if(current_direction == 5 || current_direction == 6)
+        {
+            setActiveAnimation(2);
+        }
+        else if(current_direction == 7 || current_direction == 8)
+        {
+            setActiveAnimation(3);
+        }
+        else
+        {
+            m_currentAnimation.reset();
+            m_currentAnimation.pause();
+        }
+    }
     
-    m_animation = animation;
+    //TODO: Idle animation
+    
+    m_currentAnimation.update();
 }
 
 ALLEGRO_BITMAP* Character::getImage() //Returns an image based on the animation_timer and the direction in which the player is moving
 {
-	if(last_direction == 1 || last_direction == 2)
-	{
-		if(internal_animation_timer/25 < 1)
-		{
-			return m_animation.getFrame(0);
-		}
-		if(internal_animation_timer/25 >= 1 && internal_animation_timer/25 < 2)
-		{
-			return m_animation.getFrame(1);
-		}
-		if(internal_animation_timer/25 >= 2 && internal_animation_timer/25 < 3)
-		{
-			return m_animation.getFrame(0);
-		}
-		if(internal_animation_timer/25 >= 3 && internal_animation_timer/25 <= 4)
-		{
-			return m_animation.getFrame(2);
-		}
-	}
-	if(last_direction == 3 || last_direction == 4)
-	{
-		if(internal_animation_timer/25 < 1)
-		{
-			return m_animation.getFrame(3);
-		}
-		if(internal_animation_timer/25 >= 1 && internal_animation_timer/25 < 2)
-		{
-			return m_animation.getFrame(4);
-		}
-		if(internal_animation_timer/25 >= 2 && internal_animation_timer/25 < 3)
-		{
-			return m_animation.getFrame(3);
-		}
-		if(internal_animation_timer/25 >= 3 && internal_animation_timer/25 <= 4)
-		{
-			return m_animation.getFrame(5);
-		}
-	}
-	if(last_direction == 5 || last_direction == 6)
-	{
-		if(internal_animation_timer/25 < 1)
-		{
-			return m_animation.getFrame(6);
-		}
-		if(internal_animation_timer/25 >= 1 && internal_animation_timer/25 < 2)
-		{
-			return m_animation.getFrame(7);
-		}
-		if(internal_animation_timer/25 >= 2 && internal_animation_timer/25 < 3)
-		{
-			return m_animation.getFrame(6);
-		}
-		if(internal_animation_timer/25 >= 3 && internal_animation_timer/25 <= 4)
-		{
-			return m_animation.getFrame(8);
-		}
-	}
-	if(last_direction == 7 || last_direction == 8)
-	{
-		if(internal_animation_timer/25 < 1)
-		{
-			return m_animation.getFrame(9);
-		}
-		if(internal_animation_timer/25 >= 1 && internal_animation_timer/25 < 2)
-		{
-			return m_animation.getFrame(10);
-		}
-		if(internal_animation_timer/25 >= 2 && internal_animation_timer/25 < 3)
-		{
-			return m_animation.getFrame(9);
-		}
-		if(internal_animation_timer/25 >= 3 && internal_animation_timer/25 <= 4)
-		{
-			return m_animation.getFrame(11);
-		}
-	}
-	
-	return m_animation.getFrame(6);
-	
-
+    return m_currentAnimation.getCurrentFrame();
 }
 
 bool Character::isCollision(int direction, int height, int width, std::vector<std::vector<MapSquare*>> map) //Checks if the player collides with a square which has no collision on

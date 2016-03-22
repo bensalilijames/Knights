@@ -2,39 +2,15 @@
 
 extern GameEngine *gameEngine;
 
-Player::Player(void)
+Player::Player()
 {
-    inventory = new Inventory(gameEngine);
-    
-    last_direction = 0;
-    internal_animation_timer = 0;
+    offencePotential = 25;
     health = 1000;
     max_health = 1000;
-    offencePotential = 25;
-    isDead = false;
-    selected_weapon = -1;
-    experience = 0;
+    inventory = new Inventory(gameEngine);
     
     loadImages(0);
-}
-
-Player::~Player(void)
-{
-    delete inventory;
-}
-
-void Player::handleAnimation(void)
-{
-	if(is_moving == false)
-	{
-		internal_animation_timer = 0;
-	}
-
-	if(internal_animation_timer >= 100)
-	{
-		internal_animation_timer = 0;
-	}
-}
+};
 
 void Player::reduceHealth(int maxReduction)
 {

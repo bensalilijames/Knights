@@ -107,7 +107,6 @@
 		B859115718CE5BC500D31265 /* Inventory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B859114518CE5BC500D31265 /* Inventory.cpp */; };
 		B859115818CE5BC500D31265 /* Item.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B859114718CE5BC500D31265 /* Item.cpp */; };
 		B859115918CE5BC500D31265 /* Main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B859114918CE5BC500D31265 /* Main.cpp */; };
-		B859115A18CE5BC500D31265 /* MapSquare.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B859114A18CE5BC500D31265 /* MapSquare.cpp */; };
 		B859115B18CE5BC500D31265 /* Monster.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B859114C18CE5BC500D31265 /* Monster.cpp */; };
 		B859115C18CE5BC500D31265 /* Player.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B859114E18CE5BC500D31265 /* Player.cpp */; };
 		B859115D18CE5BC500D31265 /* State.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B859115018CE5BC500D31265 /* State.cpp */; };
@@ -262,8 +261,6 @@
 		B859114718CE5BC500D31265 /* Item.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Item.cpp; sourceTree = "<group>"; };
 		B859114818CE5BC500D31265 /* Item.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Item.h; sourceTree = "<group>"; };
 		B859114918CE5BC500D31265 /* Main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Main.cpp; sourceTree = "<group>"; };
-		B859114A18CE5BC500D31265 /* MapSquare.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MapSquare.cpp; sourceTree = "<group>"; };
-		B859114B18CE5BC500D31265 /* MapSquare.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapSquare.h; sourceTree = "<group>"; };
 		B859114C18CE5BC500D31265 /* Monster.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Monster.cpp; sourceTree = "<group>"; };
 		B859114D18CE5BC500D31265 /* Monster.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Monster.h; sourceTree = "<group>"; };
 		B859114E18CE5BC500D31265 /* Player.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Player.cpp; sourceTree = "<group>"; };
@@ -387,8 +384,6 @@
 				B859114918CE5BC500D31265 /* Main.cpp */,
 				B859116518CEA63800D31265 /* MenuState.cpp */,
 				B859116618CEA63800D31265 /* MenuState.h */,
-				B859114A18CE5BC500D31265 /* MapSquare.cpp */,
-				B859114B18CE5BC500D31265 /* MapSquare.h */,
 				B8A00AC518D972FF00885742 /* MapSquares.cpp */,
 				B8A00AC618D972FF00885742 /* MapSquares.h */,
 				B859114C18CE5BC500D31265 /* Monster.cpp */,
@@ -680,7 +675,6 @@
 				B8A00AC718D972FF00885742 /* MapSquares.cpp in Sources */,
 				B859115B18CE5BC500D31265 /* Monster.cpp in Sources */,
 				B859116718CEA63800D31265 /* MenuState.cpp in Sources */,
-				B859115A18CE5BC500D31265 /* MapSquare.cpp in Sources */,
 				B859115D18CE5BC500D31265 /* State.cpp in Sources */,
 				B8A00AD118D99D5000885742 /* GameEngine.cpp in Sources */,
 				B8A00ACA18D97B7600885742 /* GameLevel.cpp in Sources */,
@@ -738,6 +732,7 @@
 		B859103318CE453D00D31265 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ENABLE_TESTABILITY = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				ONLY_ACTIVE_ARCH = YES;
 			};
@@ -807,6 +802,7 @@
 				INFOPLIST_FILE = "Knights/Knights-Info.plist";
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "Ben-James.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 				WRAPPER_EXTENSION = app;
@@ -864,6 +860,7 @@
 				);
 				INFOPLIST_FILE = "Knights/Knights-Info.plist";
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				PRODUCT_BUNDLE_IDENTIFIER = "Ben-James.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 				WRAPPER_EXTENSION = app;

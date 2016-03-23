@@ -6,7 +6,7 @@
 #include <allegro5/allegro_ttf.h>
 #include "Monster.h"
 #include "Player.h"
-#include "MapSquare.h"
+#include "MapSquares.h"
 #include "Inventory.h"
 #include "Item.h"
 #include <vector>

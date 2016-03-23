@@ -4,6 +4,13 @@
 #include <allegro5/allegro_font.h>
 #include <allegro5/allegro_ttf.h>
 
+double GameEngine::m_lastFrameTime = 0.0;
+
+double GameEngine::getDeltaTime()
+{
+    return al_get_time() - m_lastFrameTime;
+}
+
 void GameEngine::Init() {
     running = true;
     
@@ -82,6 +89,7 @@ void GameEngine::HandleEvents() {
 void GameEngine::Update() {
     // let the state update the game
 	states.back()->Update(this);
+    m_lastFrameTime = al_get_time();
 }
 void GameEngine::Draw() {
     // let the state draw the screen

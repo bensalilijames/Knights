@@ -37,6 +37,8 @@ public:
     const int scrx = 800;
     const int scry = 600;
     
+    static double getDeltaTime();
+    
 private:
     std::vector<State*> states;
     
@@ -45,6 +47,8 @@ private:
     const float FPS = 120.0f;
     
     ALLEGRO_TIMER *redrawTimer;
+    
+    static double m_lastFrameTime;
     
 };
 

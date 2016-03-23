@@ -105,53 +105,54 @@ ALLEGRO_BITMAP* Character::getImage()
 
 bool Character::isCollision(Direction direction, std::vector<std::vector<MapSquare*>> map)
 {
-    if(direction != 1 && direction != 3 && direction != 5 && direction != 7) {
+    struct Point {
+        int x;
+        int y;
+    } pointA, pointB;
+    
+    if(direction == North)
+	{
+        pointA.x = (m_x) / 50;
+		pointA.y = (m_y - 1) / 50;
+        
+		pointB.x = (m_x + m_width) / 50;
+		pointB.y = (m_y - 1) / 50;
+	}
+	else if(direction == South)
+	{
+		pointA.x = (m_x) / 50;
+		pointA.y = (m_y + m_height + 1) / 50;
+
+		pointB.x = (m_x + m_width) / 50;
+		pointB.y = (m_y + m_height + 1) / 50;
+	}
+	else if(direction == East)
+	{
+		pointA.x = (m_x + m_width + 1) / 50;
+		pointA.y = (m_y) / 50;
+
+        pointB.x = (m_x + m_width + 1) / 50;
+		pointB.y = (m_y + m_height) / 50;
+	}
+	else if(direction == West)
+	{
+		pointA.x = (m_x - 1) / 50;
+		pointA.y = (m_y) / 50;
+
+		pointB.x = (m_x - 1) / 50;
+		pointB.y = (m_y + m_height) / 50;
+	}
+    else
+    {
         return false;
     }
     
-    int collision[4];
+    auto collisionTest = [&map](Point point){
+        return map[point.y][point.x]->isCollidable();
+    };
     
-	if(direction == North)
-	{
-		collision[0] = (m_x) / 50; //Sets up the m_x and m_y to check for collision
-		collision[1] = (m_y - 1) / 50;
-
-		collision[2] = (m_x + m_width) / 50;
-		collision[3] = (m_y - 1) / 50;
-
-	}
-
-	if(direction == South)
-	{
-		collision[0] = (m_x) / 50;
-		collision[1] = (m_y + m_height + 1) / 50;
-
-		collision[2] = (m_x + m_width) / 50;
-		collision[3] = (m_y + m_height + 1) / 50;
-        
-	}
-
-	if(direction == East)
-	{
-		collision[0] = (m_x + m_width + 1) / 50;
-		collision[1] = (m_y) / 50;
-
-		collision[2] = (m_x + m_width + 1) / 50;
-		collision[3] = (m_y + m_height) / 50;
-
-	}
-
-	if(direction == West)
-	{
-		collision[0] = (m_x - 1) / 50;
-		collision[1] = (m_y) / 50;
-
-		collision[2] = (m_x - 1) / 50;
-		collision[3] = (m_y + m_height) / 50;
-
-	}
-
-    if (map[collision[1]][collision[0]]->collisionInvalid == true || map[collision[3]][collision[2]]->collisionInvalid == true) {
+    if (collisionTest(pointA) || collisionTest(pointB))
+    {
         return true;
     }
     

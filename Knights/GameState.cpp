@@ -80,9 +80,7 @@ void GameState::HandleEvents(GameEngine* gameEngine) {
                 mainCharacter->updateDirection(direction);
                 hasMoved = true;
             }
-            return true;
         }
-        return false;
     };
     
     doMovement(ALLEGRO_KEY_UP, ALLEGRO_KEY_W, North, 0, -1);
@@ -101,11 +99,9 @@ void GameState::HandleEvents(GameEngine* gameEngine) {
         {
             if(gameEngine->getEvent().keyboard.keycode == ALLEGRO_KEY_SPACE)
             {
-                //if(!al_get_timer_started(combatTimer)) {
-                    doCombat();
-                //    al_start_timer(combatTimer);
-                //}
+                doCombat();
             }
+            
             if(gameEngine->getEvent().keyboard.keycode == ALLEGRO_KEY_ESCAPE)
             {
                 gameEngine->Quit();
@@ -131,7 +127,6 @@ void GameState::HandleEvents(GameEngine* gameEngine) {
 
             
             if(gameEngine->getEvent().keyboard.keycode == ALLEGRO_KEY_LSHIFT) {
-                
                 
                 if(currentLevel->levelMapItems[(mainCharacter->getX()+15)/50][(mainCharacter->getY()+20)/50] != NULL)
 				{
@@ -175,6 +170,7 @@ void GameState::Update(GameEngine* gameEngine) {
         if(monster->isSpawned())
         {
             monster->handleMovement(this);
+            monster->handleCombat(this);
             monster->updateAnimation();
         }
     }
@@ -247,8 +243,6 @@ void GameState::Draw(GameEngine* gameEngine) {
     }
 
 }
-
-
 
 
 // Called when space is pressed and combat timer is a certain value

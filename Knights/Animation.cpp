@@ -7,6 +7,7 @@
 //
 
 #include "Animation.h"
+#include "GameEngine.h"
 
 ALLEGRO_BITMAP* Animation::getFrame(int frame) const
 {
@@ -45,7 +46,6 @@ void Animation::pause()
 
 void Animation::reset()
 {
-    m_lastAnimUpdateTime = al_get_time();
     m_currentFrame = 0;
     m_timeToNextFrame = 0.5;
     m_paused = false;
@@ -55,11 +55,7 @@ void Animation::update()
 {
     if (!m_paused)
     {
-        //TODO: move timedelta to game engine method
-        double currentTime = al_get_time();
-        double timeDelta = al_get_time() - m_lastAnimUpdateTime;
-        m_lastAnimUpdateTime = currentTime;
-        m_timeToNextFrame -= timeDelta;
+        m_timeToNextFrame -= GameEngine::getDeltaTime();
         if (m_timeToNextFrame <= 0.0)
         {
             nextFrame();

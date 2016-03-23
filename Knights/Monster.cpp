@@ -3,95 +3,91 @@
 #include <stdlib.h>
 #include "Items.h"
 
+void Monster::moveRandomly(GameState* game)
+{
+    if(m_isMoving == false)
+    {
+        if((rand() % 200)==1)
+        {
+            m_isMoving = true;
+            m_currentDirection = Direction(2 * (rand() % 4) + 1);
+        }
+    }
+    else
+    {
+        if (!isCollision(m_currentDirection, game->currentLevel->levelMap))
+        {
+            if(m_currentDirection == North) { m_y--; }
+            if(m_currentDirection == South) { m_y++; }
+            if(m_currentDirection == East)  { m_x++; }
+            if(m_currentDirection == West)  { m_x--; }
+            
+            if((rand() % 70)==1)
+            {
+                m_isMoving = false;
+            }
+        }
+        else
+        {
+            m_isMoving = false;
+        }
+    }
+}
+
+void Monster::moveTowardsPlayer(GameState* game)
+{
+    if(game->mainCharacter->getX() - 30 > m_x && !isCollision(East, game->currentLevel->levelMap))
+    {
+        m_x++;
+        m_currentDirection = East;
+    }
+    if(game->mainCharacter->getX() + 20 < m_x && !isCollision(West, game->currentLevel->levelMap))
+    {
+        m_x--;
+        m_currentDirection = West;
+    }
+    if(game->mainCharacter->getY() - 30 > m_y && !isCollision(South, game->currentLevel->levelMap))
+    {
+        m_y++;
+        m_currentDirection = South;
+    }
+    if(game->mainCharacter->getY() + 20 < m_y && !isCollision(North, game->currentLevel->levelMap))
+    {
+        m_y--;
+        m_currentDirection = North;
+    }
+}
+
 void Monster::handleMovement(GameState* game)
 {
-	if(m_spawned == true)
+	if(m_spawned)
 	{
         m_lastDirection = m_currentDirection;
-		if(m_inCombat == false) //If Monster isn't in combat then make it move randomly
+        if(!m_inCombat)
 		{
-			if(m_isMoving == false)
-			{
-				if((rand() % 200)==1)
-				{
-					m_isMoving = true;
-					m_currentDirection = Direction(2 * (rand() % 4) + 1);
-				}
-			}
-			else
-			{
-				if (!isCollision(m_currentDirection, game->currentLevel->levelMap))
-				{	
-					if(m_currentDirection == North)
-					{
-						m_y--;
-					}
-		
-					if(m_currentDirection == South)
-					{
-						m_y++;
-					}
-
-					if(m_currentDirection == East)
-					{
-						m_x++;
-					}
-
-					if(m_currentDirection == West)
-					{
-						m_x--;
-					}
-		
-					if((rand() % 70)==1)
-					{
-						m_isMoving = false;
-					}
-				}
-				else
-				{
-					m_isMoving = false;
-				}
-			}
+            moveRandomly(game);
 		}
-		else //Otherwise move in direction of player
+		else
 		{
-			if(game->mainCharacter->getX() - 30 > m_x && !isCollision(East, game->currentLevel->levelMap))
-			{
-				m_x++;
-				m_lastDirection = East;
-			}
-			if(game->mainCharacter->getX() + 20 < m_x && !isCollision(West, game->currentLevel->levelMap))
-			{
-				m_x--;
-				m_lastDirection = West;
-			}
-			if(game->mainCharacter->getY() - 30 > m_y && !isCollision(South, game->currentLevel->levelMap))
-			{
-				m_y++;
-				m_lastDirection = South;
-			}
-			if(game->mainCharacter->getY() + 20 < m_y && !isCollision(North, game->currentLevel->levelMap))
-			{
-				m_y--;
-				m_lastDirection = North;
-			}
-            
-            //todo:: fix combat on monsters
-            /*if(internal_animation_timer > 1)
-			{
-				internal_animation_timer = 0;
-				doCombat(game);
-			}*/
+            moveTowardsPlayer(game);
 		}
 	}
 }
 
-void Monster::doCombat(GameState* game) //If player is within range of Monster then reduce the main character health
+void Monster::handleCombat(GameState* game)
 {
-	if(abs(game->mainCharacter->getX() - m_x) + abs(game->mainCharacter->getY() - m_y) < 50)
-	{
-		game->mainCharacter->reduceHealth(m_offencePotential);
-	}
+    if(m_inCombat)
+    {
+        m_timeSinceLastAttack += GameEngine::getDeltaTime();
+        if(m_timeSinceLastAttack >= 0.5)
+        {
+            if(abs(game->mainCharacter->getX() - m_x) + abs(game->mainCharacter->getY() - m_y) < 50)
+            {
+                game->mainCharacter->reduceHealth(m_offencePotential);
+            }
+            m_timeSinceLastAttack = 0.0;
+        }
+    }
 }
 
 void Monster::killed(GameState* game) //When killed drop a random item

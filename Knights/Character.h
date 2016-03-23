@@ -3,7 +3,7 @@
 
 #include <allegro5/allegro.h>
 #include <vector>
-#include "MapSquare.h"
+#include "MapSquares.h"
 #include "Animation.h"
 
 enum Direction
@@ -54,8 +54,8 @@ protected:
     int m_health;
     int m_maxHealth;
     
-    int m_height = 40;
-    int m_width = 30;
+    int m_height;
+    int m_width;
 
 private:
     Animation m_currentAnimation;

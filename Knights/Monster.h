@@ -11,7 +11,7 @@ class Monster: public Character
 {
 public:
 	void handleMovement(GameState* game);
-	void doCombat(GameState* game);
+	void handleCombat(GameState* game);
 	void killed(GameState* game);
 	void reduceHealth(int maxReduction, GameState* game);
 	void spawn(int ID);
@@ -19,10 +19,14 @@ public:
     bool isSpawned() { return m_spawned; }
     void setInCombat(bool inCombat) { m_inCombat = inCombat; }
     
+    void moveRandomly(GameState* game);
+    void moveTowardsPlayer(GameState* game);
+    
 private:
     bool m_inCombat = false;
     bool m_spawned;
     bool m_isMoving;
+    double m_timeSinceLastAttack = 0.5;
 };
 
 #endif

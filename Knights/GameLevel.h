@@ -2,7 +2,7 @@
 #define GAMELEVEL_H
 
 #include <vector>
-#include "MapSquare.h"
+#include "MapSquares.h"
 #include "Item.h"
 #include "Monster.h"
 #include "Player.h"
@@ -11,10 +11,7 @@ class Player;
 class Monster;
 
 class GameLevel {
-public:
-    GameLevel();
-    ~GameLevel();
-    
+public:    
     void loadLevel(int level, Player* player);
     
     std::vector<std::vector<MapSquare*>> levelMap;
@@ -26,7 +23,7 @@ public:
     ALLEGRO_BITMAP* empty_content_map;
     ALLEGRO_BITMAP* monster_overlay;
     
-    int monsterCount;
+    int monsterCount = 0;
     int portalX;
     int portalY;
     

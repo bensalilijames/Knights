@@ -28,7 +28,6 @@ public:
 private:
     std::vector<ALLEGRO_BITMAP*> m_frames;
     double m_timeToNextFrame = 0;
-    double m_lastAnimUpdateTime = 0;
     int m_currentFrame = 0;
     bool m_paused = false;
 };

@@ -17,16 +17,20 @@ public:
         delete inventory;
     }
     
+    int getExperience() { return m_experience; }
+    void addExperience(int delta) { m_experience += delta; }
+
 	void reduceHealth(int maxReduction);
 	void increaseHealth(int increment);
 
 	bool isDead = false;
 
 	int selected_weapon = -1;
-	int is_moving;
-	int experience = 0;
 	
     Inventory* inventory;
+
+private:
+    int m_experience = 0;
 };
 
 #endif

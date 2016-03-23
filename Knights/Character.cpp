@@ -1,5 +1,28 @@
 #include "Character.h"
 
+void Character::modifyOffencePotential(int delta)
+{
+    m_offencePotential += delta;
+}
+
+void Character::updateDirection(Direction direction)
+{
+    m_lastDirection = m_currentDirection;
+    m_currentDirection = direction;
+}
+
+void Character::move(int x, int y)
+{
+    m_x += x;
+    m_y += y;
+}
+
+void Character::setPosition(int x, int y)
+{
+    m_x = x;
+    m_y = y;
+}
+
 void Character::createAnimation(const std::vector<const char *> paths)
 {
     Animation animation;
@@ -44,42 +67,43 @@ void Character::setActiveAnimation(int animationId)
 
 void Character::updateAnimation()
 {
-    if(current_direction != last_direction)
+    if(m_currentDirection != m_lastDirection)
     {
-        if(current_direction == 1 || current_direction == 2)
+        if(m_currentDirection == North || m_currentDirection == NorthEast)
         {
+            //TODO: This would be better with an anim ID or name instead of an arbitary number
             setActiveAnimation(0);
         }
-        else if(current_direction == 3 || current_direction == 4)
+        else if(m_currentDirection == East || m_currentDirection == SouthEast)
         {
             setActiveAnimation(1);
         }
-        else if(current_direction == 5 || current_direction == 6)
+        else if(m_currentDirection == South || m_currentDirection == SouthWest)
         {
             setActiveAnimation(2);
         }
-        else if(current_direction == 7 || current_direction == 8)
+        else if(m_currentDirection == West || m_currentDirection == NorthWest)
         {
             setActiveAnimation(3);
         }
         else
         {
+            // Player is idle, set animation back to first frame and pause
             m_currentAnimation.reset();
             m_currentAnimation.pause();
         }
     }
     
-    //TODO: Idle animation
-    
     m_currentAnimation.update();
 }
 
-ALLEGRO_BITMAP* Character::getImage() //Returns an image based on the animation_timer and the direction in which the player is moving
+// Returns the current frame of the animation
+ALLEGRO_BITMAP* Character::getImage()
 {
     return m_currentAnimation.getCurrentFrame();
 }
 
-bool Character::isCollision(int direction, int height, int width, std::vector<std::vector<MapSquare*>> map) //Checks if the player collides with a square which has no collision on
+bool Character::isCollision(Direction direction, std::vector<std::vector<MapSquare*>> map)
 {
     if(direction != 1 && direction != 3 && direction != 5 && direction != 7) {
         return false;
@@ -87,43 +111,43 @@ bool Character::isCollision(int direction, int height, int width, std::vector<st
     
     int collision[4];
     
-	if(direction == 1) //UP
+	if(direction == North)
 	{
-		collision[0] = (x_position) / 50; //Sets up the x_position and y_position to check for collision
-		collision[1] = (y_position - 1) / 50;
+		collision[0] = (m_x) / 50; //Sets up the m_x and m_y to check for collision
+		collision[1] = (m_y - 1) / 50;
 
-		collision[2] = (x_position + width) / 50;
-		collision[3] = (y_position - 1) / 50;
+		collision[2] = (m_x + m_width) / 50;
+		collision[3] = (m_y - 1) / 50;
 
 	}
 
-	if(direction == 5) //DOWN
+	if(direction == South)
 	{
-		collision[0] = (x_position) / 50;
-		collision[1] = (y_position + height + 1) / 50;
+		collision[0] = (m_x) / 50;
+		collision[1] = (m_y + m_height + 1) / 50;
 
-		collision[2] = (x_position + width) / 50;
-		collision[3] = (y_position + height + 1) / 50;
+		collision[2] = (m_x + m_width) / 50;
+		collision[3] = (m_y + m_height + 1) / 50;
         
 	}
 
-	if(direction == 3) //RIGHT
+	if(direction == East)
 	{
-		collision[0] = (x_position + width + 1) / 50;
-		collision[1] = (y_position) / 50;
+		collision[0] = (m_x + m_width + 1) / 50;
+		collision[1] = (m_y) / 50;
 
-		collision[2] = (x_position + width + 1) / 50;
-		collision[3] = (y_position + height) / 50;
+		collision[2] = (m_x + m_width + 1) / 50;
+		collision[3] = (m_y + m_height) / 50;
 
 	}
 
-	if(direction == 7) //LEFT
+	if(direction == West)
 	{
-		collision[0] = (x_position - 1) / 50;
-		collision[1] = (y_position) / 50;
+		collision[0] = (m_x - 1) / 50;
+		collision[1] = (m_y) / 50;
 
-		collision[2] = (x_position - 1) / 50;
-		collision[3] = (y_position + height) / 50;
+		collision[2] = (m_x - 1) / 50;
+		collision[3] = (m_y + m_height) / 50;
 
 	}
 

@@ -103,8 +103,7 @@ void GameLevel::loadLevel(int level, Player* player) {
 				else if(line.substr(i,1) == "A") //Monster ID 1
 				{
                     Monster* monsterToAdd = new Monster();
-                    monsterToAdd->x_position = i*50;
-                    monsterToAdd->y_position = j*50;
+                    monsterToAdd->setPosition(i * 50, j * 50);
                     monsterToAdd->spawn(1);
 					monsters.push_back(monsterToAdd);
 					monsterCount++;
@@ -112,8 +111,7 @@ void GameLevel::loadLevel(int level, Player* player) {
 				else if(line.substr(i,1) == "B") //Monster ID 2
 				{
                     Monster* monsterToAdd = new Monster();
-                    monsterToAdd->x_position = i*50;
-                    monsterToAdd->y_position = j*50;
+                    monsterToAdd->setPosition(i * 50, j * 50);
                     monsterToAdd->spawn(2);
 					monsters.push_back(monsterToAdd);
 					monsterCount++;
@@ -125,8 +123,7 @@ void GameLevel::loadLevel(int level, Player* player) {
 				}
 				else if(line.substr(i,1) == "C") //Player character start position
 				{
-					player->x_position = i*50;
-					player->y_position = j*50;
+                    player->setPosition(i * 50, j * 50);
 				}
                 
 				if(line_underlay.substr(i,1) == "N") //Various underlay options ñ polar or grass

@@ -72,14 +72,17 @@ void Inventory::useSelectedItem(Player* player) {
         else if(getSelectedItem()->getType() == "Weapon" && player->selected_weapon != selectedSlot) //If weapon and not already one equipped, equip weapon
         {
             if(getItemAt(player->selected_weapon) != NULL) {
-                player->offencePotential -= getItemAt(player->selected_weapon)->getOffenceModifier();
+                int delta = -getItemAt(player->selected_weapon)->getOffenceModifier();
+                player->modifyOffencePotential(delta);
             }
             player->selected_weapon = selectedSlot;
-            player->offencePotential += getSelectedItem()->getOffenceModifier();
+            int delta = getSelectedItem()->getOffenceModifier();
+            player->modifyOffencePotential(delta);
         }
         else if(getSelectedItem()->getType() == "Weapon" && player->selected_weapon == selectedSlot) //If weapon and not already one equipped, equip weapon
         {
-            player->offencePotential -= getSelectedItem()->getOffenceModifier();
+            int delta = -getSelectedItem()->getOffenceModifier();
+            player->modifyOffencePotential(delta);
             player->selected_weapon = -1;
         }
     }
@@ -93,9 +96,10 @@ void Inventory::dropSelectedItem(GameState* game) {
         if(getSelectedSlot() == game->mainCharacter->selected_weapon) //If equipped weapon, unequip it first
         {
             game->mainCharacter->selected_weapon = -1;
-            game->mainCharacter->offencePotential -= getSelectedItem()->getOffenceModifier();
+            int delta = -getSelectedItem()->getOffenceModifier();
+            game->mainCharacter->modifyOffencePotential(delta);
         }
-        game->currentLevel->levelMapItems[game->mainCharacter->x_position/50][game->mainCharacter->y_position/50] = getSelectedItem();
+        game->currentLevel->levelMapItems[game->mainCharacter->getX()/50][game->mainCharacter->getY()/50] = getSelectedItem();
         deleteFromSelectedSlot();
     }
 }

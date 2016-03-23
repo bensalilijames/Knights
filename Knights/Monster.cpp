@@ -5,75 +5,75 @@
 
 void Monster::handleMovement(GameState* game)
 {
-	if(spawned == true)
+	if(m_spawned == true)
 	{
-        last_direction = current_direction;
-		if(inCombat == false) //If Monster isn’t in combat then make it move randomly
+        m_lastDirection = m_currentDirection;
+		if(m_inCombat == false) //If Monster isn't in combat then make it move randomly
 		{
-			if(isMoving == false)
+			if(m_isMoving == false)
 			{
 				if((rand() % 200)==1)
 				{
-					isMoving = true;
-					current_direction = 2 * (rand() % 4) + 1;
+					m_isMoving = true;
+					m_currentDirection = Direction(2 * (rand() % 4) + 1);
 				}
 			}
 			else
 			{
-				if (!isCollision(current_direction,49,49,game->currentLevel->levelMap))
+				if (!isCollision(m_currentDirection, game->currentLevel->levelMap))
 				{	
-					if(current_direction == 1) //UP
+					if(m_currentDirection == North)
 					{
-						y_position--;
+						m_y--;
 					}
 		
-					if(current_direction == 5) //DOWN
+					if(m_currentDirection == South)
 					{
-						y_position++;
+						m_y++;
 					}
 
-					if(current_direction == 3) //RIGHT
+					if(m_currentDirection == East)
 					{
-						x_position++;
+						m_x++;
 					}
 
-					if(current_direction == 7) //LEFT
+					if(m_currentDirection == West)
 					{
-						x_position--;
+						m_x--;
 					}
 		
 					if((rand() % 70)==1)
 					{
-						isMoving = false;
+						m_isMoving = false;
 					}
 				}
 				else
 				{
-					isMoving = false;
+					m_isMoving = false;
 				}
 			}
 		}
 		else //Otherwise move in direction of player
 		{
-			if(game->mainCharacter->x_position - 30 > x_position && !isCollision(3,49,49,game->currentLevel->levelMap))
+			if(game->mainCharacter->getX() - 30 > m_x && !isCollision(East, game->currentLevel->levelMap))
 			{
-				x_position++;
-				last_direction = 3;
+				m_x++;
+				m_lastDirection = East;
 			}
-			if(game->mainCharacter->x_position + 20 < x_position && !isCollision(7,49,49,game->currentLevel->levelMap))
+			if(game->mainCharacter->getX() + 20 < m_x && !isCollision(West, game->currentLevel->levelMap))
 			{
-				x_position--;
-				last_direction = 7;
+				m_x--;
+				m_lastDirection = West;
 			}
-			if(game->mainCharacter->y_position - 30 > y_position && !isCollision(5,49,49,game->currentLevel->levelMap))
+			if(game->mainCharacter->getY() - 30 > m_y && !isCollision(South, game->currentLevel->levelMap))
 			{
-				y_position++;
-				last_direction = 5;
+				m_y++;
+				m_lastDirection = South;
 			}
-			if(game->mainCharacter->y_position + 20 < y_position && !isCollision(1,49,49,game->currentLevel->levelMap))
+			if(game->mainCharacter->getY() + 20 < m_y && !isCollision(North, game->currentLevel->levelMap))
 			{
-				y_position--;
-				last_direction = 1;
+				m_y--;
+				m_lastDirection = North;
 			}
             
             //todo:: fix combat on monsters
@@ -88,9 +88,9 @@ void Monster::handleMovement(GameState* game)
 
 void Monster::doCombat(GameState* game) //If player is within range of Monster then reduce the main character health
 {
-	if(abs(game->mainCharacter->x_position - x_position) + abs(game->mainCharacter->y_position - y_position) < 50)
+	if(abs(game->mainCharacter->getX() - m_x) + abs(game->mainCharacter->getY() - m_y) < 50)
 	{
-		game->mainCharacter->reduceHealth(offencePotential);
+		game->mainCharacter->reduceHealth(m_offencePotential);
 	}
 }
 
@@ -100,13 +100,13 @@ void Monster::killed(GameState* game) //When killed drop a random item
         switch(rand() % 3)
         {
             case 0:
-                game->currentLevel->levelMapItems[(x_position+25)/50][(y_position+25)/50] = Items::fishItem;
+                game->currentLevel->levelMapItems[(m_x+25)/50][(m_y+25)/50] = Items::fishItem;
                 break;
             case 1:
-                game->currentLevel->levelMapItems[(x_position+25)/50][(y_position+25)/50] = Items::potionItem;
+                game->currentLevel->levelMapItems[(m_x+25)/50][(m_y+25)/50] = Items::potionItem;
                 break;
             case 2:
-                game->currentLevel->levelMapItems[(x_position+25)/50][(y_position+25)/50] = Items::swordItem;
+                game->currentLevel->levelMapItems[(m_x+25)/50][(m_y+25)/50] = Items::swordItem;
                 break;
         }
 	}
@@ -115,22 +115,22 @@ void Monster::killed(GameState* game) //When killed drop a random item
         switch(rand() % 2)
         {
             case 0:
-                game->currentLevel->levelMapItems[(x_position+25)/50][(y_position+25)/50] = Items::fishItem;
+                game->currentLevel->levelMapItems[(m_x+25)/50][(m_y+25)/50] = Items::fishItem;
                 break;
             case 1:
-                game->currentLevel->levelMapItems[(x_position+25)/50][(y_position+25)/50] = Items::potionItem;
+                game->currentLevel->levelMapItems[(m_x+25)/50][(m_y+25)/50] = Items::potionItem;
                 break;
         }
 	}
 
 
-	health = 0;
-	x_position = 0;
-	y_position = 0;
-	spawned = false;
-	inCombat = false;
+	m_health = 0;
+	m_x = 0;
+	m_y = 0;
+	m_spawned = false;
+	m_inCombat = false;
 
-	game->mainCharacter->experience ++;
+	game->mainCharacter->addExperience(1);
 
 	game->currentLevel->monsterCount--;
 
@@ -138,8 +138,8 @@ void Monster::killed(GameState* game) //When killed drop a random item
 
 void Monster::reduceHealth(int maxReduction, GameState* game)
 {
-	health -= rand() % maxReduction;
-	if(health <= 0)
+	m_health -= rand() % maxReduction;
+	if(m_health <= 0)
 	{
 		killed(game);
 	}
@@ -147,22 +147,23 @@ void Monster::reduceHealth(int maxReduction, GameState* game)
 
 void Monster::spawn(int ID)
 {
+    m_width = 49;
+    m_height = 49;
+    
 	if(ID == 1)
 	{
-		spawned = true;
-		health = 100;
-		max_health = 100;
-		loadImages(1);
-		offencePotential = 10;
-		inCombat = false;
+        m_spawned = true;
+		m_health = 100;
+		m_maxHealth = 100;
+		m_offencePotential = 10;
 	}
 	if(ID == 2)
 	{
-		spawned = true;
-		health = 150;
-		max_health = 150;
-		loadImages(2);
-		offencePotential = 20;
-		inCombat = false;
+		m_spawned = true;
+		m_health = 150;
+		m_maxHealth = 150;
+		m_offencePotential = 20;
 	}
+    
+    loadImages(ID);
 }

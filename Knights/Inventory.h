@@ -37,7 +37,7 @@ public:
 private:
     std::vector<Item*> items;
     int capacity;
-    int selectedSlot;
+    int selectedSlot = 0;
     ALLEGRO_BITMAP *cachedInventoryDraw;
     bool needsRedraw;
 };

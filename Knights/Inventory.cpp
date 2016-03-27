@@ -6,7 +6,6 @@
 
 Inventory::Inventory()
 {
-    selectedSlot = 0;
     capacity = standardCapacity;
     items.resize(standardCapacity);
     
@@ -50,25 +49,25 @@ bool Inventory::addToInventory(Item* itemToAdd)
 	while(items[i] != NULL && i < items.size())
 	{
 		i++;
-	}  //Cycles through Inventory spaces until an empty slot is found
-	
-	if(i != items.size()) //If there is space (i.e. not 8) then add the item to the Inventory
+	}
+    
+	if(i != items.size())
 	{
         items[i] = itemToAdd;
         needsRedraw = true;
-		return 1;
+		return true;
 	}
-	return 0;
+	return false;
 }
 
 void Inventory::useSelectedItem(Player* player) {
     if(getSelectedItem() != NULL) {
-        if(getSelectedItem()->getType() == "Food") //If food then increase health
+        if(getSelectedItem()->getType() == ItemType::Food) //If food then increase health
         {
             player->increaseHealth(getSelectedItem()->getHealingPotential());
             deleteFromSelectedSlot();
         }
-        else if(getSelectedItem()->getType() == "Weapon" && player->getSelectedWeapon() != selectedSlot) //If weapon and not already one equipped, equip weapon
+        else if(getSelectedItem()->getType() == ItemType::Weapon && player->getSelectedWeapon() != selectedSlot) //If weapon and not already one equipped, equip weapon
         {
             if(getItemAt(player->getSelectedWeapon()) != NULL) {
                 int delta = -getItemAt(player->getSelectedWeapon())->getOffenceModifier();
@@ -78,7 +77,7 @@ void Inventory::useSelectedItem(Player* player) {
             int delta = getSelectedItem()->getOffenceModifier();
             player->modifyOffencePotential(delta);
         }
-        else if(getSelectedItem()->getType() == "Weapon" && player->getSelectedWeapon() == selectedSlot) //If weapon and not already one equipped, equip weapon
+        else if(getSelectedItem()->getType() == ItemType::Weapon && player->getSelectedWeapon() == selectedSlot) //If weapon and not already one equipped, equip weapon
         {
             int delta = -getSelectedItem()->getOffenceModifier();
             player->modifyOffencePotential(delta);
@@ -103,7 +102,8 @@ void Inventory::dropSelectedItem(GameState* game) {
     }
 }
 
-void Inventory::populateInventory(void) //Deletes all items and replaces with the initial items
+//Deletes all items and replaces with the initial items
+void Inventory::populateInventory(void)
 {
 	for(int i = 0; i <= items.size(); i++)
     {

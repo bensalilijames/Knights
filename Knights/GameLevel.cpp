@@ -5,7 +5,7 @@
 #include <string>
 #include "MapSquares.h"
 
-void GameLevel::loadLevel(int level, Player* player) {
+void GameLevel::loadLevel(int level, Player& player) {
     
     for (int i = 0; i < 50; i++) {
         for (int j = 0; j < 50; j++) {
@@ -20,8 +20,8 @@ void GameLevel::loadLevel(int level, Player* player) {
 	{
 		for(int j = 0; j <=49; j++)
 		{
-			levelMap[i].push_back(MapSquares::grassSquare[0]); //Sets up all squares to grassSquare initally
-            levelMapUnderlay[i].push_back(MapSquares::grassSquare[0]);
+			levelMap[i].push_back(MapSquares::grassSquare[0].get()); //Sets up all squares to grassSquare initally
+            levelMapUnderlay[i].push_back(MapSquares::grassSquare[0].get());
 		}
 	}
     
@@ -76,10 +76,10 @@ void GameLevel::loadLevel(int level, Player* player) {
 		{
             if(line.find(",") != std::string::npos)
             {
-                mapHeight = std::atoi(line.substr(0,line.find(",")).c_str());
-                mapWidth = std::atoi(line.substr(line.find(",")+1).c_str());
-                empty_content_map = al_create_bitmap(mapWidth*50,mapHeight*50);
-                monster_overlay = al_create_bitmap(mapWidth*50,mapHeight*50);
+                m_mapHeight = std::atoi(line.substr(0,line.find(",")).c_str());
+                m_mapWidth = std::atoi(line.substr(line.find(",")+1).c_str());
+                m_emptyContentMap = al_create_bitmap(m_mapWidth * 50, m_mapHeight * 50);
+                m_monsterOverlay = al_create_bitmap(m_mapWidth * 50, m_mapHeight * 50);
             }
             
             int column = 0;
@@ -88,36 +88,36 @@ void GameLevel::loadLevel(int level, Player* player) {
 			{
 				if(letter == 'T') //Tree squares randomised between 3 images
 				{
-					levelMap[row][column] = MapSquares::treeSquare[rand() % 3];
+					levelMap[row][column] = MapSquares::treeSquare[rand() % 3].get();
 				}
 				else if(letter == 'R') //Rock squares randomised between 4 images
 				{
-					levelMap[row][column] = MapSquares::rockSquare[rand() % 4];
+					levelMap[row][column] = MapSquares::rockSquare[rand() % 4].get();
 				}
 				else if(letter == 'A') //Monster ID 1
 				{
                     Monster* monsterToAdd = new Monster();
                     monsterToAdd->setPosition(column * 50, row * 50);
-                    monsterToAdd->spawn(1);
+                    monsterToAdd->spawn(CharacterType::Froggy);
 					monsters.push_back(monsterToAdd);
-					monsterCount++;
+					m_monsterCount++;
 				}
 				else if(letter == 'B') //Monster ID 2
 				{
                     Monster* monsterToAdd = new Monster();
                     monsterToAdd->setPosition(column * 50, row * 50);
-                    monsterToAdd->spawn(2);
+                    monsterToAdd->spawn(CharacterType::Globby);
 					monsters.push_back(monsterToAdd);
-					monsterCount++;
+					m_monsterCount++;
 				}
 				else if(letter == 'P') //Portal position
 				{
-					portalX = column * 50;
-					portalY = row * 50;
+					m_portalX = column * 50;
+					m_portalY = row * 50;
 				}
 				else if(letter == 'C') //Player character start position
 				{
-                    player->setPosition(column * 50, row * 50);
+                    player.setPosition(column * 50, row * 50);
 				}
                 
                 column++;
@@ -129,59 +129,59 @@ void GameLevel::loadLevel(int level, Player* player) {
             {
 				if(letter == 'N') //Various underlay options of polar or grass
 				{
-					levelMapUnderlay[row][column] = MapSquares::polarSquare[0];
+					levelMapUnderlay[row][column] = MapSquares::polarSquare[0].get();
 				}
 				else if(letter == 'O')
 				{
-					levelMapUnderlay[row][column] = MapSquares::polarSquare[1];
+					levelMapUnderlay[row][column] = MapSquares::polarSquare[1].get();
 				}
 				else if(letter == 'P')
 				{
-					levelMapUnderlay[row][column] = MapSquares::polarSquare[2];
+					levelMapUnderlay[row][column] = MapSquares::polarSquare[2].get();
 				}
 				else if(letter == 'Q')
 				{
-					levelMapUnderlay[row][column] = MapSquares::polarSquare[3];
+					levelMapUnderlay[row][column] = MapSquares::polarSquare[3].get();
 				}
 				else if(letter == 'R')
 				{
-					levelMapUnderlay[row][column] = MapSquares::polarSquare[4];
+					levelMapUnderlay[row][column] = MapSquares::polarSquare[4].get();
 				}
 				else if(letter == 'S')
 				{
-					levelMapUnderlay[row][column] = MapSquares::polarSquare[5];
+					levelMapUnderlay[row][column] = MapSquares::polarSquare[5].get();
 				}
 				else if(letter == 'T')
 				{
-					levelMapUnderlay[row][column] = MapSquares::polarSquare[6];
+					levelMapUnderlay[row][column] = MapSquares::polarSquare[6].get();
 				}
 				else if(letter == 'U')
 				{
-					levelMapUnderlay[row][column] = MapSquares::polarSquare[7];
+					levelMapUnderlay[row][column] = MapSquares::polarSquare[7].get();
 				}
 				else if(letter == 'V')
 				{
-					levelMapUnderlay[row][column] = MapSquares::polarSquare[8];
+					levelMapUnderlay[row][column] = MapSquares::polarSquare[8].get();
 				}
 				else if(letter == 'W')
 				{
-					levelMapUnderlay[row][column] = MapSquares::polarSquare[9];
+					levelMapUnderlay[row][column] = MapSquares::polarSquare[9].get();
 				}
 				else if(letter == 'X')
 				{
-					levelMapUnderlay[row][column] = MapSquares::polarSquare[10];
+					levelMapUnderlay[row][column] = MapSquares::polarSquare[10].get();
 				}
 				else if(letter == 'Y')
 				{
-					levelMapUnderlay[row][column] = MapSquares::polarSquare[11];
+					levelMapUnderlay[row][column] = MapSquares::polarSquare[11].get();
 				}
 				else if(letter == 'Z')
 				{
-					levelMapUnderlay[row][column] = MapSquares::polarSquare[12];
+					levelMapUnderlay[row][column] = MapSquares::polarSquare[12].get();
 				}
 				else if(letter == 'G')
 				{
-					levelMapUnderlay[row][column] = MapSquares::grassSquare[0];
+					levelMapUnderlay[row][column] = MapSquares::grassSquare[0].get();
 				}
                 column++;
 			}
@@ -191,13 +191,13 @@ void GameLevel::loadLevel(int level, Player* player) {
 		map_data_underlay.close();
 	}
     
-	for(int i = 0; i < mapHeight; i++)
+	for(int i = 0; i < m_mapHeight; i++)
 	{
-		for(int j = 0; j < mapWidth; j++) //Draw the underlay image and the overlay image if it isnít grass
+		for(int j = 0; j < m_mapWidth; j++) //Draw the underlay image and the overlay image if it isnít grass
 		{
-            al_set_target_bitmap(empty_content_map);
+            al_set_target_bitmap(m_emptyContentMap);
 			al_draw_bitmap(levelMapUnderlay[i][j]->getImage(),j*50,i*50,0);
-            if (levelMap[i][j] != MapSquares::grassSquare[0])
+            if (levelMap[i][j] != MapSquares::grassSquare[0].get())
                 al_draw_bitmap(levelMap[i][j]->getImage(),j*50,i*50,0);
 		}
 	}

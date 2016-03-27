@@ -4,14 +4,13 @@
 #include "GameEngine.h"
 #include "Items.h"
 
-Inventory::Inventory(GameEngine* gameEngine)
+Inventory::Inventory()
 {
     selectedSlot = 0;
     capacity = standardCapacity;
     items.resize(standardCapacity);
     
-    //cachedInventoryDraw = al_create_bitmap(gameEngine->scrx, 150);
-    cachedInventoryDraw = NULL;
+    cachedInventoryDraw = al_create_bitmap(GameEngine::getInstance().scrx, 150);
     needsRedraw = true;
 }
 
@@ -69,21 +68,21 @@ void Inventory::useSelectedItem(Player* player) {
             player->increaseHealth(getSelectedItem()->getHealingPotential());
             deleteFromSelectedSlot();
         }
-        else if(getSelectedItem()->getType() == "Weapon" && player->selected_weapon != selectedSlot) //If weapon and not already one equipped, equip weapon
+        else if(getSelectedItem()->getType() == "Weapon" && player->getSelectedWeapon() != selectedSlot) //If weapon and not already one equipped, equip weapon
         {
-            if(getItemAt(player->selected_weapon) != NULL) {
-                int delta = -getItemAt(player->selected_weapon)->getOffenceModifier();
+            if(getItemAt(player->getSelectedWeapon()) != NULL) {
+                int delta = -getItemAt(player->getSelectedWeapon())->getOffenceModifier();
                 player->modifyOffencePotential(delta);
             }
-            player->selected_weapon = selectedSlot;
+            player->setSelectedWeapon(selectedSlot);
             int delta = getSelectedItem()->getOffenceModifier();
             player->modifyOffencePotential(delta);
         }
-        else if(getSelectedItem()->getType() == "Weapon" && player->selected_weapon == selectedSlot) //If weapon and not already one equipped, equip weapon
+        else if(getSelectedItem()->getType() == "Weapon" && player->getSelectedWeapon() == selectedSlot) //If weapon and not already one equipped, equip weapon
         {
             int delta = -getSelectedItem()->getOffenceModifier();
             player->modifyOffencePotential(delta);
-            player->selected_weapon = -1;
+            player->setSelectedWeapon(-1);
         }
     }
 
@@ -93,13 +92,13 @@ void Inventory::useSelectedItem(Player* player) {
 void Inventory::dropSelectedItem(GameState* game) {
     if(getSelectedItem() != NULL)
     {
-        if(getSelectedSlot() == game->mainCharacter->selected_weapon) //If equipped weapon, unequip it first
+        if(getSelectedSlot() == game->getPlayer().getSelectedWeapon()) //If equipped weapon, unequip it first
         {
-            game->mainCharacter->selected_weapon = -1;
+            game->getPlayer().setSelectedWeapon(-1);
             int delta = -getSelectedItem()->getOffenceModifier();
-            game->mainCharacter->modifyOffencePotential(delta);
+            game->getPlayer().modifyOffencePotential(delta);
         }
-        game->currentLevel->levelMapItems[game->mainCharacter->getX()/50][game->mainCharacter->getY()/50] = getSelectedItem();
+        game->getCurrentLevel().levelMapItems[game->getPlayer().getX()/50][game->getPlayer().getY()/50] = getSelectedItem();
         deleteFromSelectedSlot();
     }
 }
@@ -111,10 +110,10 @@ void Inventory::populateInventory(void) //Deletes all items and replaces with th
 		deleteFromSlot(i);
     }
     
-	items[0] = Items::fishItem;
-	items[1] = Items::potionItem;
-	items[2] = Items::fishItem;
-	items[3] = Items::fishItem;
+	items[0] = Items::fishItem.get();
+	items[1] = Items::potionItem.get();
+	items[2] = Items::fishItem.get();
+	items[3] = Items::fishItem.get();
 	
 	selectedSlot = 0;
     needsRedraw = true;

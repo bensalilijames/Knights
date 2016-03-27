@@ -10,6 +10,8 @@ class State;
 class GameEngine
 {
 public:
+    GameEngine();
+    
     void Init();
     void Cleanup();
     
@@ -21,8 +23,8 @@ public:
     void Update();
     void Draw();
     
-    bool Running() { return running; }
-    void Quit() { running = false; }
+    bool Running() { return m_running; }
+    void Quit() { m_running = false; }
     
     ALLEGRO_EVENT event;
     ALLEGRO_EVENT_QUEUE *eventQueue;
@@ -38,11 +40,21 @@ public:
     const int scry = 600;
     
     static double getDeltaTime();
+
+    static GameEngine& getInstance() {
+        if (m_instance == nullptr)
+        {
+            m_instance = std::make_unique<GameEngine>();
+        }
+        return *m_instance;
+    }
     
 private:
+    static std::unique_ptr<GameEngine> m_instance;
+    
     std::vector<State*> states;
     
-    bool running;
+    bool m_running;
     
     const float FPS = 120.0f;
     

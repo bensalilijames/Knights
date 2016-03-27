@@ -6,9 +6,9 @@
 class Items{
     
 public:
-    static Item *fishItem;
-    static Item *swordItem;
-    static Item *potionItem;
+    static ItemPtr fishItem;
+    static ItemPtr swordItem;
+    static ItemPtr potionItem;
     
     static void setItems();
 };

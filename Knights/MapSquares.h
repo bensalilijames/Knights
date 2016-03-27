@@ -22,12 +22,14 @@ private:
     bool m_collidable;
 };
 
+typedef std::unique_ptr<MapSquare> MapSquarePtr;
+
 class MapSquares {
     public:
-    static std::vector<MapSquare*> treeSquare;
-    static std::vector<MapSquare*> rockSquare;
-    static std::vector<MapSquare*> polarSquare;
-    static std::vector<MapSquare*> grassSquare;
+    static std::vector<MapSquarePtr> treeSquare;
+    static std::vector<MapSquarePtr> rockSquare;
+    static std::vector<MapSquarePtr> polarSquare;
+    static std::vector<MapSquarePtr> grassSquare;
     
     static void setMapSquares();
 };

@@ -1,11 +1,11 @@
 #include "Items.h"
 
 void Items::setItems(void) {
-    fishItem = new Item("fish.bmp", "Fish", "Heals some health", "Food", 0, 150);
-    swordItem = new Item("sword.bmp", "Sword", "A deadly weapon", "Weapon", 30, 0);
-    potionItem = new Item("healingPotion.bmp", "Potion", "Heals some health", "Food", 0, 300);
+    fishItem = std::make_unique<Item>("fish.bmp", "Fish", "Heals some health", "Food", 0, 150);
+    swordItem = std::make_unique<Item>("sword.bmp", "Sword", "A deadly weapon", "Weapon", 30, 0);
+    potionItem = std::make_unique<Item>("healingPotion.bmp", "Potion", "Heals some health", "Food", 0, 300);
 }
 
-Item* Items::fishItem = NULL;
-Item* Items::potionItem = NULL;
-Item* Items::swordItem = NULL;
+ItemPtr Items::fishItem = NULL;
+ItemPtr Items::potionItem = NULL;
+ItemPtr Items::swordItem = NULL;

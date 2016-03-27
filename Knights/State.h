@@ -17,8 +17,6 @@ public:
     virtual void HandleEvents(GameEngine* gameEngine) = 0;
     virtual void Update(GameEngine* gameEngine) = 0;
     virtual void Draw(GameEngine* gameEngine) = 0;
-        
-protected: State() { }
 };
 
 #endif

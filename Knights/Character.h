@@ -6,7 +6,9 @@
 #include "MapSquares.h"
 #include "Animation.h"
 
-enum Direction
+class GameState;
+
+enum class Direction
 {
     None,
     North,
@@ -19,11 +21,18 @@ enum Direction
     NorthWest
 };
 
+enum class CharacterType
+{
+    Player,
+    Froggy,
+    Globby
+};
+
 class Character
 {
 public:
     ALLEGRO_BITMAP* getImage();
-    void loadImages(int initial_image);
+    void loadImages(CharacterType type);
     bool isCollision(Direction direction, std::vector<std::vector<MapSquare*>> map);
     
     void createAnimation(const std::vector<const char*> paths);
@@ -43,11 +52,16 @@ public:
     
     void updateDirection(Direction direction);
     
+    bool isDead() { return m_health <= 0; }
+    
+    void reduceHealth(int delta, GameState* game);
+    void increaseHealth(int delta);
+    
 protected:
 	int m_x;
 	int m_y;
-	Direction m_lastDirection = None;
-    Direction m_currentDirection = South;
+	Direction m_lastDirection = Direction::None;
+    Direction m_currentDirection = Direction::South;
 
     int m_offencePotential;
 	int m_defencePotential;
@@ -56,6 +70,8 @@ protected:
     
     int m_height;
     int m_width;
+    
+    virtual void onKill(GameState* game) {};
 
 private:
     Animation m_currentAnimation;

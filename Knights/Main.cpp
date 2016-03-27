@@ -1,12 +1,10 @@
 #include "GameEngine.h"
 #include "MenuState.h"
 
-GameEngine gameEngine; //Creates a new instance of the game
-
 int main(int argc, char* argv[]) {
     
-	gameEngine.Init(); //Sets up allegro libraries and implements drivers
-
+    GameEngine gameEngine = GameEngine::getInstance();
+    
     gameEngine.PushState(new MenuState);
     
 	while(gameEngine.Running())

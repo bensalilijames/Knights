@@ -13,14 +13,15 @@ public:
 	void handleMovement(GameState* game);
 	void handleCombat(GameState* game);
 	void killed(GameState* game);
-	void reduceHealth(int maxReduction, GameState* game);
-	void spawn(int ID);
+	void spawn(CharacterType type);
     
     bool isSpawned() { return m_spawned; }
     void setInCombat(bool inCombat) { m_inCombat = inCombat; }
     
     void moveRandomly(GameState* game);
     void moveTowardsPlayer(GameState* game);
+    
+    virtual void onKill(GameState* game) override;
     
 private:
     bool m_inCombat = false;

@@ -29,4 +29,6 @@ private:
 	int defenceModifier;
 };
 
+typedef std::unique_ptr<Item> ItemPtr;
+
 #endif

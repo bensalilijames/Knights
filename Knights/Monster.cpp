@@ -15,12 +15,12 @@ void Monster::moveRandomly(GameState* game)
     }
     else
     {
-        if (!isCollision(m_currentDirection, game->currentLevel->levelMap))
+        if (!isCollision(m_currentDirection, game->getCurrentLevel().levelMap))
         {
-            if(m_currentDirection == North) { m_y--; }
-            if(m_currentDirection == South) { m_y++; }
-            if(m_currentDirection == East)  { m_x++; }
-            if(m_currentDirection == West)  { m_x--; }
+            if(m_currentDirection == Direction::North) { m_y--; }
+            if(m_currentDirection == Direction::South) { m_y++; }
+            if(m_currentDirection == Direction::East)  { m_x++; }
+            if(m_currentDirection == Direction::West)  { m_x--; }
             
             if((rand() % 70)==1)
             {
@@ -36,25 +36,25 @@ void Monster::moveRandomly(GameState* game)
 
 void Monster::moveTowardsPlayer(GameState* game)
 {
-    if(game->mainCharacter->getX() - 30 > m_x && !isCollision(East, game->currentLevel->levelMap))
+    if(game->getPlayer().getX() - 30 > m_x && !isCollision(Direction::East, game->getCurrentLevel().levelMap))
     {
         m_x++;
-        m_currentDirection = East;
+        m_currentDirection = Direction::East;
     }
-    if(game->mainCharacter->getX() + 20 < m_x && !isCollision(West, game->currentLevel->levelMap))
+    if(game->getPlayer().getX() + 20 < m_x && !isCollision(Direction::West, game->getCurrentLevel().levelMap))
     {
         m_x--;
-        m_currentDirection = West;
+        m_currentDirection = Direction::West;
     }
-    if(game->mainCharacter->getY() - 30 > m_y && !isCollision(South, game->currentLevel->levelMap))
+    if(game->getPlayer().getY() - 30 > m_y && !isCollision(Direction::South, game->getCurrentLevel().levelMap))
     {
         m_y++;
-        m_currentDirection = South;
+        m_currentDirection = Direction::South;
     }
-    if(game->mainCharacter->getY() + 20 < m_y && !isCollision(North, game->currentLevel->levelMap))
+    if(game->getPlayer().getY() + 20 < m_y && !isCollision(Direction::North, game->getCurrentLevel().levelMap))
     {
         m_y--;
-        m_currentDirection = North;
+        m_currentDirection = Direction::North;
     }
 }
 
@@ -81,9 +81,9 @@ void Monster::handleCombat(GameState* game)
         m_timeSinceLastAttack += GameEngine::getDeltaTime();
         if(m_timeSinceLastAttack >= 0.5)
         {
-            if(abs(game->mainCharacter->getX() - m_x) + abs(game->mainCharacter->getY() - m_y) < 50)
+            if(abs(game->getPlayer().getX() - m_x) + abs(game->getPlayer().getY() - m_y) < 50)
             {
-                game->mainCharacter->reduceHealth(m_offencePotential);
+                game->getPlayer().reduceHealth(m_offencePotential, game);
             }
             m_timeSinceLastAttack = 0.0;
         }
@@ -92,17 +92,17 @@ void Monster::handleCombat(GameState* game)
 
 void Monster::killed(GameState* game) //When killed drop a random item
 {
-    if(game->mainCharacter->selected_weapon == -1) { //Checks if the player already has a weapon equipped
+    if(game->getPlayer().getSelectedWeapon() == -1) { //Checks if the player already has a weapon equipped
         switch(rand() % 3)
         {
             case 0:
-                game->currentLevel->levelMapItems[(m_x+25)/50][(m_y+25)/50] = Items::fishItem;
+                game->getCurrentLevel().levelMapItems[(m_x+25)/50][(m_y+25)/50] = Items::fishItem.get();
                 break;
             case 1:
-                game->currentLevel->levelMapItems[(m_x+25)/50][(m_y+25)/50] = Items::potionItem;
+                game->getCurrentLevel().levelMapItems[(m_x+25)/50][(m_y+25)/50] = Items::potionItem.get();
                 break;
             case 2:
-                game->currentLevel->levelMapItems[(m_x+25)/50][(m_y+25)/50] = Items::swordItem;
+                game->getCurrentLevel().levelMapItems[(m_x+25)/50][(m_y+25)/50] = Items::swordItem.get();
                 break;
         }
 	}
@@ -111,10 +111,10 @@ void Monster::killed(GameState* game) //When killed drop a random item
         switch(rand() % 2)
         {
             case 0:
-                game->currentLevel->levelMapItems[(m_x+25)/50][(m_y+25)/50] = Items::fishItem;
+                game->getCurrentLevel().levelMapItems[(m_x+25)/50][(m_y+25)/50] = Items::fishItem.get();
                 break;
             case 1:
-                game->currentLevel->levelMapItems[(m_x+25)/50][(m_y+25)/50] = Items::potionItem;
+                game->getCurrentLevel().levelMapItems[(m_x+25)/50][(m_y+25)/50] = Items::potionItem.get();
                 break;
         }
 	}
@@ -126,34 +126,30 @@ void Monster::killed(GameState* game) //When killed drop a random item
 	m_spawned = false;
 	m_inCombat = false;
 
-	game->mainCharacter->addExperience(1);
+	game->getPlayer().addExperience(1);
 
-	game->currentLevel->monsterCount--;
+	game->getCurrentLevel().decrementMonsterCount();
 
 }
 
-void Monster::reduceHealth(int maxReduction, GameState* game)
+void Monster::onKill(GameState* game)
 {
-	m_health -= rand() % maxReduction;
-	if(m_health <= 0)
-	{
-		killed(game);
-	}
+    killed(game);
 }
 
-void Monster::spawn(int ID)
+void Monster::spawn(CharacterType type)
 {
     m_width = 49;
     m_height = 49;
     
-	if(ID == 1)
+    if(type == CharacterType::Froggy)
 	{
         m_spawned = true;
 		m_health = 100;
 		m_maxHealth = 100;
 		m_offencePotential = 10;
 	}
-	if(ID == 2)
+	if(type == CharacterType::Globby)
 	{
 		m_spawned = true;
 		m_health = 150;
@@ -161,5 +157,5 @@ void Monster::spawn(int ID)
 		m_offencePotential = 20;
 	}
     
-    loadImages(ID);
+    loadImages(type);
 }

@@ -12,7 +12,7 @@ class Monster;
 
 class GameLevel {
 public:    
-    void loadLevel(int level, Player* player);
+    void loadLevel(int level, Player& player);
     
     std::vector<std::vector<MapSquare*>> levelMap;
     std::vector<std::vector<MapSquare*>> levelMapUnderlay;
@@ -20,16 +20,21 @@ public:
     
     std::vector<Monster*> monsters;
     
-    ALLEGRO_BITMAP* empty_content_map;
-    ALLEGRO_BITMAP* monster_overlay;
+    void decrementMonsterCount() { m_monsterCount--; }
+    int getMonsterCount() { return m_monsterCount; }
+    int getPortalX() { return m_portalX; }
+    int getPortalY() { return m_portalY; }
     
-    int monsterCount = 0;
-    int portalX;
-    int portalY;
+    ALLEGRO_BITMAP* m_emptyContentMap;
+    ALLEGRO_BITMAP* m_monsterOverlay;
     
 private:
-    int mapHeight;
-    int mapWidth;
+    int m_monsterCount = 0;
+    int m_portalX;
+    int m_portalY;
+    
+    int m_mapHeight;
+    int m_mapWidth;
 };
 
 #endif

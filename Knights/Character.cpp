@@ -33,23 +33,23 @@ void Character::createAnimation(const std::vector<const char *> paths)
     m_animations.push_back(animation);
 }
 
-void Character::loadImages(int initial_image) //Loads the relevant images based on the ID of the Character
+void Character::loadImages(CharacterType type)
 {
-	if(initial_image == 0)
+    if(type == CharacterType::Player)
 	{
         createAnimation({"manU.bmp", "manU2.bmp", "manU.bmp", "manU3.bmp"});
         createAnimation({"manR.bmp", "manR2.bmp", "manR.bmp", "manR3.bmp"});
         createAnimation({"manD.bmp", "manD2.bmp", "manD.bmp", "manD3.bmp"});
         createAnimation({"manL.bmp", "manL2.bmp", "manL.bmp", "manL3.bmp"});
     }
-	else if(initial_image == 1)
+    else if(type == CharacterType::Froggy)
 	{
         createAnimation({"froggyU.bmp"});
         createAnimation({"froggyR.bmp"});
         createAnimation({"froggyD.bmp"});
         createAnimation({"froggyL.bmp"});
 	}
-	else if(initial_image == 2)
+    else if(type == CharacterType::Globby)
 	{
         createAnimation({"globbyU.bmp"});
         createAnimation({"globbyR.bmp"});
@@ -69,20 +69,20 @@ void Character::updateAnimation()
 {
     if(m_currentDirection != m_lastDirection)
     {
-        if(m_currentDirection == North || m_currentDirection == NorthEast)
+        if(m_currentDirection == Direction::North || m_currentDirection == Direction::NorthEast)
         {
             //TODO: This would be better with an anim ID or name instead of an arbitary number
             setActiveAnimation(0);
         }
-        else if(m_currentDirection == East || m_currentDirection == SouthEast)
+        else if(m_currentDirection == Direction::East || m_currentDirection == Direction::SouthEast)
         {
             setActiveAnimation(1);
         }
-        else if(m_currentDirection == South || m_currentDirection == SouthWest)
+        else if(m_currentDirection == Direction::South || m_currentDirection == Direction::SouthWest)
         {
             setActiveAnimation(2);
         }
-        else if(m_currentDirection == West || m_currentDirection == NorthWest)
+        else if(m_currentDirection == Direction::West || m_currentDirection == Direction::NorthWest)
         {
             setActiveAnimation(3);
         }
@@ -110,7 +110,7 @@ bool Character::isCollision(Direction direction, std::vector<std::vector<MapSqua
         int y;
     } pointA, pointB;
     
-    if(direction == North)
+    if(direction == Direction::North)
 	{
         pointA.x = (m_x) / 50;
 		pointA.y = (m_y - 1) / 50;
@@ -118,7 +118,7 @@ bool Character::isCollision(Direction direction, std::vector<std::vector<MapSqua
 		pointB.x = (m_x + m_width) / 50;
 		pointB.y = (m_y - 1) / 50;
 	}
-	else if(direction == South)
+	else if(direction == Direction::South)
 	{
 		pointA.x = (m_x) / 50;
 		pointA.y = (m_y + m_height + 1) / 50;
@@ -126,7 +126,7 @@ bool Character::isCollision(Direction direction, std::vector<std::vector<MapSqua
 		pointB.x = (m_x + m_width) / 50;
 		pointB.y = (m_y + m_height + 1) / 50;
 	}
-	else if(direction == East)
+	else if(direction == Direction::East)
 	{
 		pointA.x = (m_x + m_width + 1) / 50;
 		pointA.y = (m_y) / 50;
@@ -134,7 +134,7 @@ bool Character::isCollision(Direction direction, std::vector<std::vector<MapSqua
         pointB.x = (m_x + m_width + 1) / 50;
 		pointB.y = (m_y + m_height) / 50;
 	}
-	else if(direction == West)
+	else if(direction == Direction::West)
 	{
 		pointA.x = (m_x - 1) / 50;
 		pointA.y = (m_y) / 50;
@@ -157,4 +157,25 @@ bool Character::isCollision(Direction direction, std::vector<std::vector<MapSqua
     }
     
 	return false;
+}
+
+void Character::reduceHealth(int delta, GameState* game)
+{
+    //Reduces health by a random amount up to delta
+    m_health -= rand() % delta;
+    if(m_health <= 0)
+    {
+        onKill(game);
+        m_health = 0;
+    }
+}
+
+void Character::increaseHealth(int delta)
+{
+    //Increases health by a random amount up to delta
+    m_health += delta;
+    if(m_health >= m_maxHealth)
+    {
+        m_health = m_maxHealth;
+    }
 }

@@ -13,15 +13,12 @@
 #include "GameLevel.h"
 
 class Monster;
-class Player;
 class GameLevel;
+class Player;
 
 class GameState : public State
 {
 public:
-    GameState(void);
-    ~GameState(void);
-    
     void Init();
 	void Cleanup();
     
@@ -32,26 +29,30 @@ public:
 	void Update(GameEngine* gameEngine);
 	void Draw(GameEngine* gameEngine);
     
+    void createMonsters(void);
+    void drawScreen(void);
+    void createMap(void);
+    void createItems(void);
+    void doCombat(void);
+    void loadExternalData(void);
+    
+    Player& getPlayer() { return *m_player; }
+    GameLevel& getCurrentLevel() { return *m_currentLevel; }
+    
+private:
     ALLEGRO_BITMAP *hp_red;
     ALLEGRO_BITMAP *hp_green;
     ALLEGRO_BITMAP *portal;
     
     ALLEGRO_FONT *mainFont;
     
-	Player* mainCharacter;
+    std::unique_ptr<Player> m_player;
     
-	int currentWave;
+	int m_currentWave = 0;
     
 	double ratio;
     
-	void createMonsters(void);
-	void drawScreen(void);
-	void createMap(void);
-	void createItems(void);
-	void doCombat(void);
-	void loadExternalData(void);
-    
-    GameLevel* currentLevel;
+    std::unique_ptr<GameLevel> m_currentLevel;
     
     ALLEGRO_TIMER *combatTimer;
     ALLEGRO_EVENT_QUEUE *combatEventQueue;

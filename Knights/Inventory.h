@@ -2,7 +2,6 @@
 #define INVENTORY_H
 
 #include "Item.h"
-#include "GameEngine.h"
 #include <allegro5/allegro_font.h>
 #include "Player.h"
 #include "GameState.h"
@@ -15,7 +14,7 @@ class GameState;
 class Inventory
 {
 public:
-	Inventory(GameEngine* gameEngine);
+	Inventory();
 	~Inventory(void);
     
     int getSelectedSlot();

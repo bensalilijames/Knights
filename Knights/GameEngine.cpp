@@ -5,6 +5,13 @@
 #include <allegro5/allegro_ttf.h>
 
 double GameEngine::m_lastFrameTime = 0.0;
+std::unique_ptr<GameEngine> GameEngine::m_instance;
+
+GameEngine::GameEngine()
+: m_running(true)
+{
+    Init();
+}
 
 double GameEngine::getDeltaTime()
 {
@@ -12,9 +19,8 @@ double GameEngine::getDeltaTime()
 }
 
 void GameEngine::Init() {
-    running = true;
-    
-    al_init(); //Initialises the allegro library
+    //Initialise the Allegro library
+    al_init();
     al_init_image_addon();
     al_init_font_addon();
     al_init_ttf_addon();
@@ -22,7 +28,7 @@ void GameEngine::Init() {
     display = al_create_display(scrx, scry);
 	al_set_window_title(display, "Knights");
     
-	al_install_keyboard(); //Installs keyboard driver
+	al_install_keyboard();
     
     eventQueue = al_create_event_queue();
     redrawQueue = al_create_event_queue();
@@ -33,7 +39,7 @@ void GameEngine::Init() {
     al_register_event_source(redrawQueue, al_get_timer_event_source(redrawTimer));
     al_start_timer(redrawTimer);
     
-	srand((int)time(NULL)); //Randomises the numbers used in program so that it's not the same each time.
+	srand((int)time(NULL));
 }
 
 void GameEngine::Cleanup() {
@@ -59,6 +65,7 @@ void GameEngine::ChangeState(State* state) {
 	states.push_back(state);
 	states.back()->Init();
 }
+
 void GameEngine::PushState(State* state) {
     // pause current state
 	if ( !states.empty() ) {
@@ -69,6 +76,7 @@ void GameEngine::PushState(State* state) {
 	states.push_back(state);
 	states.back()->Init();
 }
+
 void GameEngine::PopState() {
     // cleanup the current state
 	if ( !states.empty() ) {
@@ -86,11 +94,13 @@ void GameEngine::HandleEvents() {
     // let the state handle events
 	states.back()->HandleEvents(this);
 }
+
 void GameEngine::Update() {
     // let the state update the game
 	states.back()->Update(this);
     m_lastFrameTime = al_get_time();
 }
+
 void GameEngine::Draw() {
     // let the state draw the screen
 	states.back()->Draw(this);

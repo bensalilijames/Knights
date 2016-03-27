@@ -12,25 +12,19 @@ class Player: public Character
 public:
     Player();
     
-    ~Player()
-    {
-        delete inventory;
-    }
-    
     int getExperience() { return m_experience; }
     void addExperience(int delta) { m_experience += delta; }
 
-	void reduceHealth(int maxReduction);
-	void increaseHealth(int increment);
-
-	bool isDead = false;
-
-	int selected_weapon = -1;
-	
-    Inventory* inventory;
+	int getSelectedWeapon() { return m_selectedWeapon; }
+    void setSelectedWeapon(int selectedWeapon) { m_selectedWeapon = selectedWeapon; }
+    
+    Inventory& getInventory() { return *inventory; }
 
 private:
     int m_experience = 0;
+    int m_selectedWeapon = -1;
+    
+    std::unique_ptr<Inventory> inventory;
 };
 
 #endif

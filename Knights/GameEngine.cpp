@@ -43,10 +43,10 @@ void GameEngine::Init() {
 }
 
 void GameEngine::Cleanup() {
-    // cleanup all states
-	while ( !states.empty() ) {
-		states.back()->Cleanup();
-		states.pop_back();
+    // cleanup all m_states
+	while ( !m_states.empty() ) {
+		m_states.back()->Cleanup();
+		m_states.pop_back();
 	}
     
     al_destroy_timer(redrawTimer);
@@ -54,54 +54,54 @@ void GameEngine::Cleanup() {
     al_destroy_display(display);
 }
 
-void GameEngine::ChangeState(State* state) {
+void GameEngine::ChangeState(std::unique_ptr<State> state) {
     // cleanup the current state
-	if ( !states.empty() ) {
-		states.back()->Cleanup();
-		states.pop_back();
+	if ( !m_states.empty() ) {
+		m_states.back()->Cleanup();
+		m_states.pop_back();
 	}
     
 	// store and init the new state
-	states.push_back(state);
-	states.back()->Init();
+    m_states.push_back(std::move(state));
+	m_states.back()->Init();
 }
 
-void GameEngine::PushState(State* state) {
+void GameEngine::PushState(std::unique_ptr<State> state) {
     // pause current state
-	if ( !states.empty() ) {
-		states.back()->Pause();
+	if ( !m_states.empty() ) {
+		m_states.back()->Pause();
 	}
     
 	// store and init the new state
-	states.push_back(state);
-	states.back()->Init();
+    m_states.push_back(std::move(state));
+	m_states.back()->Init();
 }
 
 void GameEngine::PopState() {
     // cleanup the current state
-	if ( !states.empty() ) {
-		states.back()->Cleanup();
-		states.pop_back();
+	if ( !m_states.empty() ) {
+		m_states.back()->Cleanup();
+		m_states.pop_back();
 	}
     
 	// resume previous state
-	if ( !states.empty() ) {
-		states.back()->Resume();
+	if ( !m_states.empty() ) {
+		m_states.back()->Resume();
 	}
 }
 
 void GameEngine::HandleEvents() {
     // let the state handle events
-	states.back()->HandleEvents(this);
+	m_states.back()->HandleEvents(this);
 }
 
 void GameEngine::Update() {
     // let the state update the game
-	states.back()->Update(this);
+	m_states.back()->Update(this);
     m_lastFrameTime = al_get_time();
 }
 
 void GameEngine::Draw() {
     // let the state draw the screen
-	states.back()->Draw(this);
+	m_states.back()->Draw(this);
 }

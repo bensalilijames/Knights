@@ -15,7 +15,7 @@ void Monster::moveRandomly(GameState* game)
     }
     else
     {
-        if (!isCollision(m_currentDirection, game->getCurrentLevel().levelMap))
+        if (!isCollision(m_currentDirection, game->getCurrentLevel().m_map))
         {
             if(m_currentDirection == Direction::North) { m_y--; }
             if(m_currentDirection == Direction::South) { m_y++; }
@@ -36,22 +36,22 @@ void Monster::moveRandomly(GameState* game)
 
 void Monster::moveTowardsPlayer(GameState* game)
 {
-    if(game->getPlayer().getX() - 30 > m_x && !isCollision(Direction::East, game->getCurrentLevel().levelMap))
+    if(game->getPlayer().getX() - 30 > m_x && !isCollision(Direction::East, game->getCurrentLevel().m_map))
     {
         m_x++;
         m_currentDirection = Direction::East;
     }
-    if(game->getPlayer().getX() + 20 < m_x && !isCollision(Direction::West, game->getCurrentLevel().levelMap))
+    if(game->getPlayer().getX() + 20 < m_x && !isCollision(Direction::West, game->getCurrentLevel().m_map))
     {
         m_x--;
         m_currentDirection = Direction::West;
     }
-    if(game->getPlayer().getY() - 30 > m_y && !isCollision(Direction::South, game->getCurrentLevel().levelMap))
+    if(game->getPlayer().getY() - 30 > m_y && !isCollision(Direction::South, game->getCurrentLevel().m_map))
     {
         m_y++;
         m_currentDirection = Direction::South;
     }
-    if(game->getPlayer().getY() + 20 < m_y && !isCollision(Direction::North, game->getCurrentLevel().levelMap))
+    if(game->getPlayer().getY() + 20 < m_y && !isCollision(Direction::North, game->getCurrentLevel().m_map))
     {
         m_y--;
         m_currentDirection = Direction::North;

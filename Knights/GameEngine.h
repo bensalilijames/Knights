@@ -15,8 +15,8 @@ public:
     void Init();
     void Cleanup();
     
-    void ChangeState(State* state);
-    void PushState(State* state);
+    void ChangeState(std::unique_ptr<State> state);
+    void PushState(std::unique_ptr<State> state);
     void PopState();
     
     void HandleEvents();
@@ -52,7 +52,7 @@ public:
 private:
     static std::unique_ptr<GameEngine> m_instance;
     
-    std::vector<State*> states;
+    std::vector<std::unique_ptr<State>> m_states;
     
     bool m_running;
     

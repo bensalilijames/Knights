@@ -39,7 +39,7 @@ void MenuState::HandleEvents(GameEngine* gameEngine) {
             if(gameEngine->getEvent().keyboard.keycode == ALLEGRO_KEY_SPACE)
             {
                 if(!showInstructions) showInstructions = true;
-                else gameEngine->ChangeState(new GameState);
+                else gameEngine->ChangeState(std::make_unique<GameState>());
             }
             if(gameEngine->getEvent().keyboard.keycode == ALLEGRO_KEY_ESCAPE)
             {

@@ -48,7 +48,7 @@ private:
     
     std::unique_ptr<Player> m_player;
     
-	int m_currentWave = 0;
+	int m_currentWave = 1;
     
 	std::unique_ptr<GameLevel> m_currentLevel;
     

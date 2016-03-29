@@ -21,11 +21,11 @@ class GameLevel {
 public:    
     void loadLevel(int level, Player& player);
     
-    std::vector<std::vector<MapSquare*>> levelMap;
-    std::vector<std::vector<MapSquare*>> levelMapUnderlay;
-    std::vector<std::pair<Item*, Coord>> m_itemsMap;
+    std::vector<std::vector<MapSquare*>> m_map;
+    std::vector<std::vector<MapSquare*>> m_mapUnderlay;
+    std::vector<std::pair<Item*, Coord>> m_mapItems;
     
-    std::vector<Monster*> monsters;
+    std::vector<std::unique_ptr<Monster>> m_monsters;
     
     void decrementMonsterCount() { m_monsterCount--; }
     int getMonsterCount() { return m_monsterCount; }

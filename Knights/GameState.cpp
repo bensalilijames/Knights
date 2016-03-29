@@ -52,7 +52,7 @@ void GameState::HandleEvents(GameEngine* gameEngine) {
     auto doMovement = [&hasMoved, this](int key, int altKey, Direction direction, int deltaX, int deltaY) {
         if(al_key_down(&keyboardState, key) ||
            al_key_down(&keyboardState, altKey)) {
-            if(!getPlayer().isCollision(direction, getCurrentLevel().levelMap))
+            if(!getPlayer().isCollision(direction, getCurrentLevel().m_map))
                 getPlayer().move(deltaX, deltaY);
             if(!hasMoved)
             {
@@ -111,15 +111,15 @@ void GameState::HandleEvents(GameEngine* gameEngine) {
                 
                 Player& player = getPlayer();
                 
-                auto it = std::begin(getCurrentLevel().m_itemsMap);
+                auto it = std::begin(getCurrentLevel().m_mapItems);
                 
-                while (it != std::end(getCurrentLevel().m_itemsMap))
+                while (it != std::end(getCurrentLevel().m_mapItems))
                 {
                     if (it->second.x == (player.getX() + 15) / 50
                         && it->second.y == (player.getY() + 20) / 50)
                     {
                         player.getInventory().addToInventory(it->first);
-                        getCurrentLevel().m_itemsMap.erase(it);
+                        getCurrentLevel().m_mapItems.erase(it);
                         // only pick up one item
                         break;
                     }
@@ -136,7 +136,7 @@ void GameState::HandleEvents(GameEngine* gameEngine) {
                         //When the user reaches the end of wave 10, display congratulations message
                         if(m_currentWave == 11)
                         {
-                            gameEngine->ChangeState(new MenuState);
+                            gameEngine->ChangeState(std::make_unique<MenuState>());
                         }
                         else {
                             m_currentLevel = std::make_unique<GameLevel>();
@@ -154,7 +154,7 @@ void GameState::HandleEvents(GameEngine* gameEngine) {
 void GameState::Update(GameEngine* gameEngine) {
     getPlayer().updateAnimation();
     
-    auto monsters = getCurrentLevel().monsters;
+    const auto& monsters = getCurrentLevel().m_monsters;
     
     for (auto &monster : monsters) {
         if(monster->isSpawned())
@@ -166,7 +166,7 @@ void GameState::Update(GameEngine* gameEngine) {
     }
     
     if (getPlayer().isDead()) {
-        gameEngine->ChangeState(new MenuState);
+        gameEngine->ChangeState(std::make_unique<MenuState>());
     }
 }
 
@@ -190,7 +190,7 @@ void GameState::Draw(GameEngine* gameEngine) {
                           getPlayer().getY() - screenHeight / 2,
                           0);
     
-    for (auto &itemCoordPair : getCurrentLevel().m_itemsMap)
+    for (auto &itemCoordPair : getCurrentLevel().m_mapItems)
     {
         al_draw_bitmap(itemCoordPair.first->getImage(),
                        itemCoordPair.second.x * 50,
@@ -200,7 +200,7 @@ void GameState::Draw(GameEngine* gameEngine) {
     
     double ratio;
     
-    for (auto &monster : getCurrentLevel().monsters)
+    for (auto &monster : getCurrentLevel().m_monsters)
     {
         if(monster->isSpawned())
         {
@@ -267,7 +267,7 @@ void GameState::Draw(GameEngine* gameEngine) {
     if(getPlayer().isDead())
     {
         //Display death message on death
-        gameEngine->PushState(new MenuState);
+        gameEngine->PushState(std::make_unique<MenuState>());
     }
 
 }
@@ -276,7 +276,7 @@ void GameState::Draw(GameEngine* gameEngine) {
 // Called when space is pressed and combat timer is a certain value
 void GameState::doCombat(void)
 {
-    for (auto &monster : getCurrentLevel().monsters)
+    for (auto &monster : getCurrentLevel().m_monsters)
     {
         if ((monster->getX() != 0) && (monster->getX() != 0))
         {

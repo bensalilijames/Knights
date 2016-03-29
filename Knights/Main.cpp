@@ -3,9 +3,9 @@
 
 int main(int argc, char* argv[]) {
     
-    GameEngine gameEngine = GameEngine::getInstance();
+    GameEngine& gameEngine = GameEngine::getInstance();
     
-    gameEngine.PushState(new MenuState);
+    gameEngine.PushState(std::make_unique<MenuState>());
     
 	while(gameEngine.Running())
 	{

@@ -81,7 +81,7 @@ void Monster::handleCombat(GameState* game)
         m_timeSinceLastAttack += GameEngine::getDeltaTime();
         if(m_timeSinceLastAttack >= 0.5)
         {
-            if(abs(game->getPlayer().getX() - m_x) + abs(game->getPlayer().getY() - m_y) < 50)
+            if(abs(game->getPlayer().getX() - m_x) + abs(game->getPlayer().getY() - m_y) <= 50)
             {
                 game->getPlayer().reduceHealth(m_offencePotential, game);
             }
@@ -96,13 +96,13 @@ void Monster::killed(GameState* game) //When killed drop a random item
         switch(rand() % 3)
         {
             case 0:
-                game->getCurrentLevel().levelMapItems[(m_x+25)/50][(m_y+25)/50] = Items::fishItem.get();
+                game->getCurrentLevel().dropItem(Items::fishItem.get(), (m_x + 25) / 50, (m_y + 25) / 50);
                 break;
             case 1:
-                game->getCurrentLevel().levelMapItems[(m_x+25)/50][(m_y+25)/50] = Items::potionItem.get();
+                game->getCurrentLevel().dropItem(Items::potionItem.get(), (m_x + 25) / 50, (m_y + 25) / 50);
                 break;
             case 2:
-                game->getCurrentLevel().levelMapItems[(m_x+25)/50][(m_y+25)/50] = Items::swordItem.get();
+                game->getCurrentLevel().dropItem(Items::swordItem.get(), (m_x + 25) / 50, (m_y + 25) / 50);
                 break;
         }
 	}
@@ -111,10 +111,10 @@ void Monster::killed(GameState* game) //When killed drop a random item
         switch(rand() % 2)
         {
             case 0:
-                game->getCurrentLevel().levelMapItems[(m_x+25)/50][(m_y+25)/50] = Items::fishItem.get();
+                game->getCurrentLevel().dropItem(Items::fishItem.get(), (m_x + 25) / 50, (m_y + 25) / 50);
                 break;
             case 1:
-                game->getCurrentLevel().levelMapItems[(m_x+25)/50][(m_y+25)/50] = Items::potionItem.get();
+                game->getCurrentLevel().dropItem(Items::potionItem.get(), (m_x + 25) / 50, (m_y + 25) / 50);
                 break;
         }
 	}

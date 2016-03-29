@@ -6,12 +6,6 @@
 #include "MapSquares.h"
 
 void GameLevel::loadLevel(int level, Player& player) {
-    
-    for (int i = 0; i < 50; i++) {
-        for (int j = 0; j < 50; j++) {
-            levelMapItems[i][j] = NULL;
-        }
-    }
 
     levelMap.resize(50);
     levelMapUnderlay.resize(50);
@@ -202,4 +196,9 @@ void GameLevel::loadLevel(int level, Player& player) {
 		}
 	}
 
+}
+
+void GameLevel::dropItem(Item *item, int x, int y)
+{
+    m_itemsMap.push_back(std::make_pair(item, Coord(x, y)));
 }

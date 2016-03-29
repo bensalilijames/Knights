@@ -9,7 +9,7 @@ Inventory::Inventory()
     capacity = standardCapacity;
     items.resize(standardCapacity);
     
-    cachedInventoryDraw = al_create_bitmap(GameEngine::getInstance().scrx, 150);
+    cachedInventoryDraw = al_create_bitmap(GameEngine::getInstance().m_screenWidth, 150);
     needsRedraw = true;
 }
 
@@ -97,7 +97,9 @@ void Inventory::dropSelectedItem(GameState* game) {
             int delta = -getSelectedItem()->getOffenceModifier();
             game->getPlayer().modifyOffencePotential(delta);
         }
-        game->getCurrentLevel().levelMapItems[game->getPlayer().getX()/50][game->getPlayer().getY()/50] = getSelectedItem();
+        game->getCurrentLevel().dropItem(getSelectedItem(),
+                                         game->getPlayer().getX() / 50,
+                                         game->getPlayer().getY() / 50);
         deleteFromSelectedSlot();
     }
 }
@@ -138,13 +140,12 @@ void Inventory::moveSelectorLeft(void) {
 void Inventory::drawInventory(GameEngine* gameEngine, int equippedItem, ALLEGRO_FONT *mainFont)
 {
     if(!needsRedraw) return;
-    if(!cachedInventoryDraw) cachedInventoryDraw = al_create_bitmap(gameEngine->scrx, 150);
     
     al_set_target_bitmap(cachedInventoryDraw);
     al_clear_to_color(al_map_rgb(0, 0, 0));
     al_convert_mask_to_alpha(cachedInventoryDraw, al_map_rgb(0, 0, 0));
     
-    al_draw_filled_rectangle(0, 100, gameEngine->scrx, 150, al_map_rgb(100, 100, 100));
+    al_draw_filled_rectangle(0, 100, gameEngine->m_screenWidth, 150, al_map_rgb(100, 100, 100));
 
 	for(int i=0; i<items.size(); i++)  //For every Inventory item, if it’s selected give it a darker background, otherwise a lighter one
 	{

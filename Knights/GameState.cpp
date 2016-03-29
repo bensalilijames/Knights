@@ -10,12 +10,7 @@
 
 void GameState::Init() {
     m_player = std::make_unique<Player>();
-    
-    combatTimer = al_create_timer(1);
-    combatEventQueue = al_create_event_queue();
-    al_register_event_source(combatEventQueue, al_get_timer_event_source(combatTimer));
-    al_start_timer(combatTimer);
-    
+        
     mainFont = al_load_font("PTS75F.ttf", 16, 0);
     
     hp_green = al_load_bitmap("hp_green.bmp");
@@ -23,6 +18,7 @@ void GameState::Init() {
     portal = al_load_bitmap("portal.bmp");
     al_convert_mask_to_alpha(portal, al_map_rgb(255, 0, 255));
     
+    // Has to be performed at runtime since it requires the allegro image library to be initialised
     Items::setItems();
     MapSquares::setMapSquares();
     
@@ -35,9 +31,6 @@ void GameState::Init() {
 
 void GameState::Cleanup() {
     al_destroy_font(mainFont);
-    
-    al_destroy_timer(combatTimer);
-    al_destroy_event_queue(combatEventQueue);
     
     al_destroy_bitmap(hp_green);
     al_destroy_bitmap(hp_red);
@@ -52,11 +45,6 @@ void GameState::Resume() {
 }
 
 void GameState::HandleEvents(GameEngine* gameEngine) {
-    if(al_is_event_queue_empty(combatEventQueue)) {
-        al_stop_timer(combatTimer);
-        al_flush_event_queue(combatEventQueue);
-    }
-    
     al_get_keyboard_state(&keyboardState);
     
     bool hasMoved = false;
@@ -86,52 +74,62 @@ void GameState::HandleEvents(GameEngine* gameEngine) {
     
     while(gameEngine->pollEvent()) {
         
-        if(gameEngine->getEvent().type == ALLEGRO_EVENT_KEY_DOWN)
+        auto event = gameEngine->getEvent();
+        
+        if(event.type == ALLEGRO_EVENT_KEY_DOWN)
         {
-            if(gameEngine->getEvent().keyboard.keycode == ALLEGRO_KEY_SPACE)
+            if(event.keyboard.keycode == ALLEGRO_KEY_SPACE)
             {
                 doCombat();
             }
             
-            if(gameEngine->getEvent().keyboard.keycode == ALLEGRO_KEY_ESCAPE)
+            if(event.keyboard.keycode == ALLEGRO_KEY_ESCAPE)
             {
                 gameEngine->Quit();
             }
             
-            if(gameEngine->getEvent().keyboard.keycode == ALLEGRO_KEY_ENTER)
+            if(event.keyboard.keycode == ALLEGRO_KEY_ENTER)
             {
                 getPlayer().getInventory().useSelectedItem(&getPlayer());
             }
         
-            if(gameEngine->getEvent().keyboard.keycode == ALLEGRO_KEY_E) {
+            if(event.keyboard.keycode == ALLEGRO_KEY_E) {
                 getPlayer().getInventory().moveSelectorRight();
             }
             
-            if(gameEngine->getEvent().keyboard.keycode == ALLEGRO_KEY_Q) {
+            if(event.keyboard.keycode == ALLEGRO_KEY_Q) {
                 getPlayer().getInventory().moveSelectorLeft();
             }
             
             
-            if(gameEngine->getEvent().keyboard.keycode == ALLEGRO_KEY_P) {
+            if(event.keyboard.keycode == ALLEGRO_KEY_P) {
                 getPlayer().getInventory().dropSelectedItem(this);
             }
 
             
-            if(gameEngine->getEvent().keyboard.keycode == ALLEGRO_KEY_LSHIFT) {
+            if(event.keyboard.keycode == ALLEGRO_KEY_LSHIFT) {
                 
-                if(getCurrentLevel().levelMapItems[(getPlayer().getX()+15)/50][(getPlayer().getY()+20)/50] != NULL)
-				{
-                    if(getPlayer().getInventory().addToInventory(getCurrentLevel().levelMapItems[(getPlayer().getX()+15)/50][(getPlayer().getY()+20)/50]))
-                            //If there is, then add that item to inventory ñ this function returns 0 if no space and 1 if there is space for item
+                Player& player = getPlayer();
+                
+                auto it = std::begin(getCurrentLevel().m_itemsMap);
+                
+                while (it != std::end(getCurrentLevel().m_itemsMap))
+                {
+                    if (it->second.x == (player.getX() + 15) / 50
+                        && it->second.y == (player.getY() + 20) / 50)
                     {
-                        getCurrentLevel().levelMapItems[(getPlayer().getX()+15)/50][(getPlayer().getY()+20)/50] = NULL; //Gets rid of item from map
+                        player.getInventory().addToInventory(it->first);
+                        getCurrentLevel().m_itemsMap.erase(it);
+                        // only pick up one item
+                        break;
                     }
+                    ++it;
                 }
-
                 
+                // Level finished if there are no monsters left
                 if(getCurrentLevel().getMonsterCount() == 0) {
-                    if(abs(getPlayer().getX() - getCurrentLevel().getPortalX())
-                       + abs(getPlayer().getY() - getCurrentLevel().getPortalY()) < 30) //Checks if user is near a portal
+                    if(abs(player.getX() - getCurrentLevel().getPortalX())
+                       + abs(player.getY() - getCurrentLevel().getPortalY()) < 30)
                     {
                         m_currentWave++;
                         
@@ -178,22 +176,44 @@ void GameState::Draw(GameEngine* gameEngine) {
     
     al_clear_to_color(al_map_rgb(0,0,0));
     
-	al_draw_bitmap_region(getCurrentLevel().m_emptyContentMap, getPlayer().getX()-400, getPlayer().getY()-300, gameEngine->scrx, gameEngine->scry, getPlayer().getX()-400, getPlayer().getY()-300, 0); //Draws the empty_content_map to the monster_overlay where the monsters will be added ñ only a segment (the visible screen) will be drawn
+    const int screenWidth = gameEngine->m_screenWidth;
+    const int screenHeight = gameEngine->m_screenHeight;
     
-    for (int i = 0; i < 50; i++) {
-        for (int j = 0; j < 50; j++) {
-            if(getCurrentLevel().levelMapItems[i][j] != NULL)
-                al_draw_bitmap(getCurrentLevel().levelMapItems[i][j]->getImage(), 50 * i, 50 * j, 0);
-        }
+    // Draws the empty_content_map to the monster_overlay where the monsters will be added: only a segment (the visible screen) will be drawn
+    
+    al_draw_bitmap_region(getCurrentLevel().m_emptyContentMap,
+                          getPlayer().getX() - screenWidth / 2,
+                          getPlayer().getY() - screenHeight / 2,
+                          screenWidth,
+                          screenHeight,
+                          getPlayer().getX() - screenWidth / 2,
+                          getPlayer().getY() - screenHeight / 2,
+                          0);
+    
+    for (auto &itemCoordPair : getCurrentLevel().m_itemsMap)
+    {
+        al_draw_bitmap(itemCoordPair.first->getImage(),
+                       itemCoordPair.second.x * 50,
+                       itemCoordPair.second.y * 50,
+                       0);
     }
     
-
+    double ratio;
+    
     for (auto &monster : getCurrentLevel().monsters)
     {
-        if((monster->getX() != 0) && (monster->getY() != 0)) //If monster is spawned draw monster and HP bars
+        if(monster->isSpawned())
         {
-            al_draw_bitmap(monster->getImage(), monster->getX(), monster->getY(), 0);
-            al_draw_bitmap(hp_red, monster->getX(), monster->getY(), 0);
+            al_draw_bitmap(monster->getImage(),
+                           monster->getX(),
+                           monster->getY(),
+                           0);
+            
+            al_draw_bitmap(hp_red,
+                           monster->getX(),
+                           monster->getY(),
+                           0);
+            
             ratio = ((double)monster->getHealth() / monster->getMaxHealth());
             al_draw_scaled_bitmap(hp_green, 0, 0, 44, 6, monster->getX(), monster->getY(), ratio * 44, 6, 0);
         }
@@ -208,17 +228,26 @@ void GameState::Draw(GameEngine* gameEngine) {
     
     al_clear_to_color(al_map_rgb(0,0,0));
     
-    //Draw the overlay_to the buffer
-	al_draw_bitmap(getCurrentLevel().m_monsterOverlay, 385-getPlayer().getX(), 280-getPlayer().getY(), 0);
+    // Draw the overlay to the buffer
+	al_draw_bitmap(getCurrentLevel().m_monsterOverlay,
+                   screenWidth / 2 - 15 - getPlayer().getX(),
+                   screenHeight / 2 - 20 - getPlayer().getY(),
+                   0);
     
-    //If there are no monsters left, issue a message and show the portal
+    // If there are no monsters left, issue a message and show the portal
 	if(getCurrentLevel().getMonsterCount() == 0)
 	{
         al_draw_text(mainFont, al_map_rgb(255, 255, 255), 20, 35, 0, "Wave complete! Enter the portal to move on.");
-		al_draw_bitmap(portal, 385 - getPlayer().getX() + getCurrentLevel().getPortalX(), 280 - getPlayer().getY() + getCurrentLevel().getPortalY(), 0);
+		al_draw_bitmap(portal,
+                       screenWidth / 2 - 15 - getPlayer().getX() + getCurrentLevel().getPortalX(),
+                       screenHeight / 2 - 20 - getPlayer().getY() + getCurrentLevel().getPortalY(), 0);
 	}
     
-	al_draw_bitmap(getPlayer().getImage(), (gameEngine->scrx/2)-25, (gameEngine->scry/2)-25, 0); //Draws the player to the screen
+    // Draw the player
+	al_draw_bitmap(getPlayer().getImage(),
+                   screenWidth / 2 - 25,
+                   screenHeight / 2 - 25,
+                   0);
     
 	al_draw_text(mainFont, al_map_rgb(255, 255, 255), 20, 20, 0, "Kill all the monsters to go to the next wave!");
     
@@ -227,7 +256,10 @@ void GameState::Draw(GameEngine* gameEngine) {
     
     al_set_target_backbuffer(gameEngine->display);
     
-    al_draw_bitmap(getPlayer().getInventory().getDrawnInventory(), 0, 450, 0);
+    al_draw_bitmap(getPlayer().getInventory().getDrawnInventory(),
+                   0,
+                   screenHeight - 150,
+                   0);
     
 	al_flip_display();
     

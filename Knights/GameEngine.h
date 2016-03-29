@@ -36,8 +36,8 @@ public:
     
     ALLEGRO_DISPLAY *display;
     
-    const int scrx = 800;
-    const int scry = 600;
+    const int m_screenWidth = 1366;
+    const int m_screenHeight = 768;
     
     static double getDeltaTime();
 

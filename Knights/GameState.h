@@ -50,13 +50,7 @@ private:
     
 	int m_currentWave = 0;
     
-	double ratio;
-    
-    std::unique_ptr<GameLevel> m_currentLevel;
-    
-    ALLEGRO_TIMER *combatTimer;
-    ALLEGRO_EVENT_QUEUE *combatEventQueue;
-    ALLEGRO_EVENT *combatEvent;
+	std::unique_ptr<GameLevel> m_currentLevel;
     
     ALLEGRO_KEYBOARD_STATE keyboardState;
 };

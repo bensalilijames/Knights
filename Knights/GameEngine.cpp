@@ -25,7 +25,7 @@ void GameEngine::Init() {
     al_init_font_addon();
     al_init_ttf_addon();
     
-    display = al_create_display(scrx, scry);
+    display = al_create_display(m_screenWidth, m_screenHeight);
 	al_set_window_title(display, "Knights");
     
 	al_install_keyboard();

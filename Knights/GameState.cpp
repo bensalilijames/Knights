@@ -20,7 +20,7 @@ void GameState::Init() {
     
     // Has to be performed at runtime since it requires the allegro image library to be initialised
     Items::setItems();
-    MapSquares::setMapSquares();
+    MapRegistry::registerDefaultSquares();
     
     m_currentLevel = std::make_unique<GameLevel>();
     //Takes the data from a text file and stitches map, inputting player, monster and portal co-ordinates

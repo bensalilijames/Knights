@@ -14,8 +14,8 @@ void GameLevel::loadLevel(int level, Player& player) {
 	{
 		for(int j = 0; j <=49; j++)
 		{
-			m_map[i].push_back(MapSquares::grassSquare[0].get()); //Sets up all squares to grassSquare initally
-            m_mapUnderlay[i].push_back(MapSquares::grassSquare[0].get());
+            m_map[i].push_back(MapRegistry::getRegisteredSquare("grass")); //Sets up all squares to grassSquare initally
+            m_mapUnderlay[i].push_back(MapRegistry::getRegisteredSquare("grass"));
 		}
 	}
     
@@ -52,13 +52,13 @@ void GameLevel::loadLevel(int level, Player& player) {
             
             for (char& letter : line)
 			{
-				if(letter == 'T') //Tree squares randomised between 3 images
+				if(letter == 'T') //Tree squares
 				{
-					m_map[row][column] = MapSquares::treeSquare[rand() % 3].get();
+                    m_map[row][column] = MapRegistry::getRandomSquareInGroup(MapSquareGroup::Tree);
 				}
-				else if(letter == 'R') //Rock squares randomised between 4 images
+				else if(letter == 'R') //Rock squares
 				{
-					m_map[row][column] = MapSquares::rockSquare[rand() % 4].get();
+					m_map[row][column] = MapRegistry::getRandomSquareInGroup(MapSquareGroup::Rock);
 				}
 				else if(letter == 'A') //Monster ID 1
 				{
@@ -95,59 +95,59 @@ void GameLevel::loadLevel(int level, Player& player) {
             {
 				if(letter == 'N') //Various underlay options of polar or grass
 				{
-					m_mapUnderlay[row][column] = MapSquares::polarSquare[0].get();
+                    m_mapUnderlay[row][column] = MapRegistry::getRegisteredSquare("polar");
 				}
 				else if(letter == 'O')
 				{
-					m_mapUnderlay[row][column] = MapSquares::polarSquare[1].get();
+					m_mapUnderlay[row][column] = MapRegistry::getRegisteredSquare("polarBLC");
 				}
 				else if(letter == 'P')
 				{
-					m_mapUnderlay[row][column] = MapSquares::polarSquare[2].get();
+					m_mapUnderlay[row][column] = MapRegistry::getRegisteredSquare("polarBRC");
 				}
 				else if(letter == 'Q')
 				{
-					m_mapUnderlay[row][column] = MapSquares::polarSquare[3].get();
+					m_mapUnderlay[row][column] = MapRegistry::getRegisteredSquare("polarDU");
 				}
 				else if(letter == 'R')
 				{
-					m_mapUnderlay[row][column] = MapSquares::polarSquare[4].get();
+					m_mapUnderlay[row][column] = MapRegistry::getRegisteredSquare("polarIBLC");
 				}
 				else if(letter == 'S')
 				{
-					m_mapUnderlay[row][column] = MapSquares::polarSquare[5].get();
+					m_mapUnderlay[row][column] = MapRegistry::getRegisteredSquare("polarIBRC");
 				}
 				else if(letter == 'T')
 				{
-					m_mapUnderlay[row][column] = MapSquares::polarSquare[6].get();
+					m_mapUnderlay[row][column] = MapRegistry::getRegisteredSquare("polarITLC");
 				}
 				else if(letter == 'U')
 				{
-					m_mapUnderlay[row][column] = MapSquares::polarSquare[7].get();
+					m_mapUnderlay[row][column] = MapRegistry::getRegisteredSquare("polarITRC");
 				}
 				else if(letter == 'V')
 				{
-					m_mapUnderlay[row][column] = MapSquares::polarSquare[8].get();
+					m_mapUnderlay[row][column] = MapRegistry::getRegisteredSquare("polarLR");
 				}
 				else if(letter == 'W')
 				{
-					m_mapUnderlay[row][column] = MapSquares::polarSquare[9].get();
+					m_mapUnderlay[row][column] = MapRegistry::getRegisteredSquare("polarRL");
 				}
 				else if(letter == 'X')
 				{
-					m_mapUnderlay[row][column] = MapSquares::polarSquare[10].get();
+					m_mapUnderlay[row][column] = MapRegistry::getRegisteredSquare("polarTLC");
 				}
 				else if(letter == 'Y')
 				{
-					m_mapUnderlay[row][column] = MapSquares::polarSquare[11].get();
+					m_mapUnderlay[row][column] = MapRegistry::getRegisteredSquare("polarTRC");
 				}
 				else if(letter == 'Z')
 				{
-					m_mapUnderlay[row][column] = MapSquares::polarSquare[12].get();
+					m_mapUnderlay[row][column] = MapRegistry::getRegisteredSquare("polarUD");
 				}
 				else if(letter == 'G')
 				{
-					m_mapUnderlay[row][column] = MapSquares::grassSquare[0].get();
+					m_mapUnderlay[row][column] = MapRegistry::getRegisteredSquare("grass");
 				}
                 column++;
 			}
@@ -169,7 +169,7 @@ void GameLevel::loadLevel(int level, Player& player) {
                            0);
             
             //Only add the overlay image if it isn't grass
-            if (m_map[i][j] != MapSquares::grassSquare[0].get())
+            if (m_map[i][j] != MapRegistry::getRegisteredSquare("grass"))
             {
                 al_draw_bitmap(m_map[i][j]->getImage(),
                                j * 50,

@@ -6,11 +6,9 @@
 
 Inventory::Inventory()
 {
-    capacity = standardCapacity;
-    items.resize(standardCapacity);
+    items.resize(capacity);
     
     cachedInventoryDraw = al_create_bitmap(GameEngine::getInstance().m_screenWidth, 150);
-    needsRedraw = true;
 }
 
 Inventory::~Inventory(void)

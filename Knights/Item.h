@@ -12,10 +12,8 @@ enum class ItemType {
 class Item
 {
 public:
-	Item(void);
-    Item(const char* image, const char* name, const char* examine, ItemType type, int offenceModifier, int healingPotential);
-	~Item(void);
-    
+	Item(const char* image, const char* name, const char* examine, ItemType type, int offenceModifier, int defenceModifier, int healingPotential);
+	
     std::string getName(void) { return m_name; }
     std::string getExamine(void) { return m_examine; }
     ItemType getType(void) { return m_type; }
@@ -25,13 +23,13 @@ public:
     int getDefenceModifier(void) { return m_defenceModifier; }
 
 private:
-	std::string m_name;
-	std::string m_examine;
-	ItemType m_type;
+	const std::string m_name;
+	const std::string m_examine;
+	const ItemType m_type;
 	ALLEGRO_BITMAP* m_image;
-	int m_healingPotential;
-	int m_offenceModifier;
-	int m_defenceModifier;
+	const int m_healingPotential;
+	const int m_offenceModifier;
+	const int m_defenceModifier;
 };
 
 typedef std::unique_ptr<Item> ItemPtr;

@@ -278,6 +278,7 @@
 		B8A00AD018D99D5000885742 /* GameEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameEngine.h; sourceTree = "<group>"; };
 		B8A3760B1CAB1A1900CD09A0 /* map_data_underlay1.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = map_data_underlay1.txt; sourceTree = "<group>"; };
 		B8A3760C1CAB1A1900CD09A0 /* map_data1.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = map_data1.txt; sourceTree = "<group>"; };
+		B8A3760F1CB1EE2D00CD09A0 /* Coord.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Coord.h; sourceTree = "<group>"; };
 		B8BE4B0F1CA1B8A300DEF65D /* Animation.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Animation.cpp; sourceTree = "<group>"; };
 		B8BE4B121CA1BB6800DEF65D /* Animation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Animation.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -369,6 +370,7 @@
 			children = (
 				B859113E18CE5BC500D31265 /* Character.cpp */,
 				B859113F18CE5BC500D31265 /* Character.h */,
+				B8A3760F1CB1EE2D00CD09A0 /* Coord.h */,
 				B8A00ACF18D99D5000885742 /* GameEngine.cpp */,
 				B8A00AD018D99D5000885742 /* GameEngine.h */,
 				B859114318CE5BC500D31265 /* GameState.cpp */,

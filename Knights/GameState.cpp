@@ -133,8 +133,8 @@ void GameState::HandleEvents(GameEngine* gameEngine) {
                     {
                         m_currentWave++;
                         
-                        //When the user reaches the end of wave 10, display congratulations message
-                        if(m_currentWave == 11)
+                        //When the user reaches the end of wave 7, display congratulations message
+                        if(m_currentWave == 7)
                         {
                             gameEngine->ChangeState(std::make_unique<MenuState>());
                         }

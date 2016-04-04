@@ -7,6 +7,7 @@
 #include "Animation.h"
 
 class GameState;
+class Animation;
 
 enum class Direction
 {

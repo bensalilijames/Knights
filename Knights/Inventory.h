@@ -6,8 +6,6 @@
 #include "Player.h"
 #include "GameState.h"
 
-#define standardCapacity 10
-
 class Player;
 class GameState;
 
@@ -36,10 +34,10 @@ public:
     
 private:
     std::vector<Item*> items;
-    int capacity;
+    int capacity = 10;
     int selectedSlot = 0;
     ALLEGRO_BITMAP *cachedInventoryDraw;
-    bool needsRedraw;
+    bool needsRedraw = true;
 };
 
 #endif

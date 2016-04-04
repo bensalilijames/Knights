@@ -6,16 +6,10 @@
 #include "Item.h"
 #include "Monster.h"
 #include "Player.h"
+#include "Coord.h"
 
 class Player;
 class Monster;
-
-struct Coord {
-    int x;
-    int y;
-    
-    Coord(int x, int y) : x(x), y(y) {}
-};
 
 class GameLevel {
 public:    

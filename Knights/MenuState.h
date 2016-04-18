@@ -4,30 +4,23 @@
 #include "State.h"
 #include "GameState.h"
 #include "GameEngine.h"
+#include "UI.hpp"
 
 class MenuState : public State {
 
 public:
+    virtual ~MenuState() {};
     
-    MenuState();
-    ~MenuState();
+    virtual void Init() override;
     
-    void Init();
-	void Cleanup();
-    
-	void Pause();
-	void Resume();
-    
-	void HandleEvents(GameEngine* gameEngine);
-	void Update(GameEngine* gameEngine);
-	void Draw(GameEngine* gameEngine);
+	virtual void HandleEvents(GameEngine* gameEngine) override;
+    virtual void Draw(GameEngine* gameEngine) override;
     
 private:
-    ALLEGRO_BITMAP* splash;
-    ALLEGRO_BITMAP* instructions;
+    ImageUIElementPtr m_splashUI;
+    ImageUIElementPtr m_instructionsUI;
     
     bool showInstructions;
-    
 };
 
 #endif

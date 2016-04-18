@@ -3,7 +3,6 @@
 
 #include "State.h"
 #include <allegro5/allegro.h>
-#include <allegro5/allegro_ttf.h>
 #include "Monster.h"
 #include "Player.h"
 #include "MapSquares.h"
@@ -19,15 +18,12 @@ class Player;
 class GameState : public State
 {
 public:
-    void Init();
-	void Cleanup();
+    virtual void Init() override;
+	virtual void Cleanup() override;
     
-	void Pause();
-	void Resume();
-    
-	void HandleEvents(GameEngine* gameEngine);
-	void Update(GameEngine* gameEngine);
-	void Draw(GameEngine* gameEngine);
+	virtual void HandleEvents(GameEngine* gameEngine) override;
+	virtual void Update(GameEngine* gameEngine) override;
+	virtual void Draw(GameEngine* gameEngine) override;
     
     void createMonsters(void);
     void drawScreen(void);
@@ -43,8 +39,6 @@ private:
     ALLEGRO_BITMAP *hp_red;
     ALLEGRO_BITMAP *hp_green;
     ALLEGRO_BITMAP *portal;
-    
-    ALLEGRO_FONT *mainFont;
     
     std::unique_ptr<Player> m_player;
     

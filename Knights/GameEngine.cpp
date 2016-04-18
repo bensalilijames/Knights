@@ -40,9 +40,18 @@ void GameEngine::Init() {
     al_start_timer(redrawTimer);
     
 	srand((int)time(NULL));
+    
+    ALLEGRO_PATH *path = al_get_standard_path(ALLEGRO_RESOURCES_PATH);
+    al_append_path_component(path, "Resources");
+    al_change_directory(al_path_cstr(path, '/'));  // change the working directory
+    al_destroy_path(path);
+    
+    defaultFont = al_load_font("PTS75F.ttf", 16, 0);
 }
 
 void GameEngine::Cleanup() {
+    al_destroy_font(defaultFont);
+    
     // cleanup all m_states
 	while ( !m_states.empty() ) {
 		m_states.back()->Cleanup();

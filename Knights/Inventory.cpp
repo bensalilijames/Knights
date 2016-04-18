@@ -25,18 +25,18 @@ Item* Inventory::getSelectedItem(void) {
 }
 
 Item* Inventory::getItemAt(int slot) {
-    if (slot < 0 || slot >= items.size()) return NULL;
+    if (slot < 0 || slot >= items.size()) return nullptr;
     return items[slot];
 }
 
 void Inventory::deleteFromSelectedSlot()
 {
-    items[selectedSlot] = NULL;
+    items[selectedSlot] = nullptr;
     needsRedraw = true;
 }
 
 void Inventory::deleteFromSlot(int slot) {
-    items[slot] = NULL;
+    items[slot] = nullptr;
     needsRedraw = true;
 }
 
@@ -44,7 +44,7 @@ bool Inventory::addToInventory(Item* itemToAdd)
 {
 	int i = 0;
 	
-	while(items[i] != NULL && i < items.size())
+	while(items[i] != nullptr && i < items.size())
 	{
 		i++;
 	}
@@ -59,7 +59,7 @@ bool Inventory::addToInventory(Item* itemToAdd)
 }
 
 void Inventory::useSelectedItem(Player* player) {
-    if(getSelectedItem() != NULL) {
+    if(getSelectedItem() != nullptr) {
         if(getSelectedItem()->getType() == ItemType::Food) //If food then increase health
         {
             player->increaseHealth(getSelectedItem()->getHealingPotential());
@@ -67,7 +67,7 @@ void Inventory::useSelectedItem(Player* player) {
         }
         else if(getSelectedItem()->getType() == ItemType::Weapon && player->getSelectedWeapon() != selectedSlot) //If weapon and not already one equipped, equip weapon
         {
-            if(getItemAt(player->getSelectedWeapon()) != NULL) {
+            if(getItemAt(player->getSelectedWeapon()) != nullptr) {
                 int delta = -getItemAt(player->getSelectedWeapon())->getOffenceModifier();
                 player->modifyOffencePotential(delta);
             }
@@ -87,7 +87,7 @@ void Inventory::useSelectedItem(Player* player) {
 }
 
 void Inventory::dropSelectedItem(GameState* game) {
-    if(getSelectedItem() != NULL)
+    if(getSelectedItem() != nullptr)
     {
         if(getSelectedSlot() == game->getPlayer().getSelectedWeapon()) //If equipped weapon, unequip it first
         {
@@ -135,34 +135,37 @@ void Inventory::moveSelectorLeft(void) {
     needsRedraw = true;
 }
 
-void Inventory::drawInventory(GameEngine* gameEngine, int equippedItem, ALLEGRO_FONT *mainFont)
+void Inventory::drawInventory(int equippedItem)
 {
     if(!needsRedraw) return;
+    
+    const GameEngine& gameEngine = GameEngine::getInstance();
+    ALLEGRO_FONT* font = gameEngine.defaultFont;
     
     al_set_target_bitmap(cachedInventoryDraw);
     al_clear_to_color(al_map_rgb(0, 0, 0));
     al_convert_mask_to_alpha(cachedInventoryDraw, al_map_rgb(0, 0, 0));
     
-    al_draw_filled_rectangle(0, 100, gameEngine->m_screenWidth, 150, al_map_rgb(100, 100, 100));
+    al_draw_filled_rectangle(0, 100, gameEngine.m_screenWidth, 150, al_map_rgb(100, 100, 100));
 
 	for(int i=0; i<items.size(); i++)  //For every Inventory item, if it’s selected give it a darker background, otherwise a lighter one
 	{
 		if(i == selectedSlot)
 		{
 			al_draw_filled_rectangle(70*i+30, 100, 70*i+80, 150,al_map_rgb(150, 150, 150));
-			if(items[i] != NULL) //Create an infopane with name and examine
+			if(items[i] != nullptr) //Create an infopane with name and examine
 			{
 				al_draw_filled_rectangle(70*i+5, 40, 70*i+105, 90, al_map_rgb(52, 152, 219));
-                al_draw_text(mainFont, al_map_rgb(255, 255, 255), 70*i+10, 45, 0, items[i]->getName().c_str());
+                al_draw_text(font, al_map_rgb(255, 255, 255), 70*i+10, 45, 0, items[i]->getName().c_str());
                 
 				if(items[i]->getExamine().length() <= 12)
 				{
-					al_draw_text(mainFont, al_map_rgb(255, 255, 255), 70*i+10, 55, 0, items[i]->getExamine().c_str());
+					al_draw_text(font, al_map_rgb(255, 255, 255), 70*i+10, 55, 0, items[i]->getExamine().c_str());
 				}
 				else //If examine text is too long then split it into two lines
 				{
-                    al_draw_text(mainFont, al_map_rgb(255, 255, 255), 70*i+10, 55, 0, items[i]->getExamine().substr(0,items[i]->getExamine().substr(0,12).find_last_of(" ")).c_str());
-                    al_draw_text(mainFont, al_map_rgb(255, 255, 255), 70*i+10, 65, 0, items[i]->getExamine().substr(items[i]->getExamine().substr(0,12).find_last_of(" ")+1).c_str());
+                    al_draw_text(font, al_map_rgb(255, 255, 255), 70*i+10, 55, 0, items[i]->getExamine().substr(0,items[i]->getExamine().substr(0,12).find_last_of(" ")).c_str());
+                    al_draw_text(font, al_map_rgb(255, 255, 255), 70*i+10, 65, 0, items[i]->getExamine().substr(items[i]->getExamine().substr(0,12).find_last_of(" ")+1).c_str());
 
                 }
 			}
@@ -178,7 +181,7 @@ void Inventory::drawInventory(GameEngine* gameEngine, int equippedItem, ALLEGRO_
 			al_draw_filled_rectangle(70*i+30, 100, 70*i+80, 150, al_map_rgb(231, 76, 60));
 		}
 
-		if(items[i] != NULL && items[i]->getExamine() != "")
+		if(items[i] != nullptr && items[i]->getExamine() != "")
 		{
 			al_draw_bitmap(items[i]->getImage(), 70*i+30, 100, 0);
 		}

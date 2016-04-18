@@ -10,8 +10,6 @@
 
 void GameState::Init() {
     m_player = std::make_unique<Player>();
-        
-    mainFont = al_load_font("PTS75F.ttf", 16, 0);
     
     hp_green = al_load_bitmap("hp_green.bmp");
     hp_red = al_load_bitmap("hp_red.bmp");
@@ -29,19 +27,10 @@ void GameState::Init() {
     getPlayer().getInventory().populateInventory();
 }
 
-void GameState::Cleanup() {
-    al_destroy_font(mainFont);
-    
+void GameState::Cleanup() {    
     al_destroy_bitmap(hp_green);
     al_destroy_bitmap(hp_red);
     al_destroy_bitmap(portal);
-}
-
-void GameState::Pause() {
-    
-}
-void GameState::Resume() {
-    
 }
 
 void GameState::HandleEvents(GameEngine* gameEngine) {
@@ -234,10 +223,12 @@ void GameState::Draw(GameEngine* gameEngine) {
                    screenHeight / 2 - 20 - getPlayer().getY(),
                    0);
     
+    ALLEGRO_FONT* font = GameEngine::getInstance().defaultFont;
+    
     // If there are no monsters left, issue a message and show the portal
 	if(getCurrentLevel().getMonsterCount() == 0)
 	{
-        al_draw_text(mainFont, al_map_rgb(255, 255, 255), 20, 35, 0, "Wave complete! Enter the portal to move on.");
+        al_draw_text(font, al_map_rgb(255, 255, 255), 20, 35, 0, "Wave complete! Enter the portal to move on.");
 		al_draw_bitmap(portal,
                        screenWidth / 2 - 15 - getPlayer().getX() + getCurrentLevel().getPortalX(),
                        screenHeight / 2 - 20 - getPlayer().getY() + getCurrentLevel().getPortalY(), 0);
@@ -249,10 +240,10 @@ void GameState::Draw(GameEngine* gameEngine) {
                    screenHeight / 2 - 25,
                    0);
     
-	al_draw_text(mainFont, al_map_rgb(255, 255, 255), 20, 20, 0, "Kill all the monsters to go to the next wave!");
+	al_draw_text(font, al_map_rgb(255, 255, 255), 20, 20, 0, "Kill all the monsters to go to the next wave!");
     
     // Draw inventory
-	getPlayer().getInventory().drawInventory(gameEngine, getPlayer().getSelectedWeapon(), mainFont);
+	getPlayer().getInventory().drawInventory(getPlayer().getSelectedWeapon());
     
     al_set_target_backbuffer(gameEngine->display);
     
@@ -260,9 +251,6 @@ void GameState::Draw(GameEngine* gameEngine) {
                    0,
                    screenHeight - 150,
                    0);
-    
-	al_flip_display();
-    
     
     if(getPlayer().isDead())
     {

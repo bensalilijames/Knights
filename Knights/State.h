@@ -8,14 +8,16 @@ class GameEngine;
 class State
 {
 public:
-    virtual void Init() = 0;
-    virtual void Cleanup() = 0;
+    virtual ~State() {};
     
-    virtual void Pause() = 0;
-    virtual void Resume() = 0;
+    virtual void Init() {};
+    virtual void Cleanup() {};
     
-    virtual void HandleEvents(GameEngine* gameEngine) = 0;
-    virtual void Update(GameEngine* gameEngine) = 0;
+    virtual void Pause() {};
+    virtual void Resume() {};
+    
+    virtual void HandleEvents(GameEngine* gameEngine) {};
+    virtual void Update(GameEngine* gameEngine) {};
     virtual void Draw(GameEngine* gameEngine) = 0;
 };
 

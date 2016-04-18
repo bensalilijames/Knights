@@ -116,6 +116,7 @@
 		B8A00AD118D99D5000885742 /* GameEngine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B8A00ACF18D99D5000885742 /* GameEngine.cpp */; };
 		B8A3760D1CAB1A1900CD09A0 /* map_data_underlay1.txt in Resources */ = {isa = PBXBuildFile; fileRef = B8A3760B1CAB1A1900CD09A0 /* map_data_underlay1.txt */; };
 		B8A3760E1CAB1A1900CD09A0 /* map_data1.txt in Resources */ = {isa = PBXBuildFile; fileRef = B8A3760C1CAB1A1900CD09A0 /* map_data1.txt */; };
+		B8A376121CC50A6400CD09A0 /* UI.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B8A376101CC50A6400CD09A0 /* UI.cpp */; };
 		B8BE4B111CA1B8A300DEF65D /* Animation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B8BE4B0F1CA1B8A300DEF65D /* Animation.cpp */; };
 /* End PBXBuildFile section */
 
@@ -279,6 +280,8 @@
 		B8A3760B1CAB1A1900CD09A0 /* map_data_underlay1.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = map_data_underlay1.txt; sourceTree = "<group>"; };
 		B8A3760C1CAB1A1900CD09A0 /* map_data1.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = map_data1.txt; sourceTree = "<group>"; };
 		B8A3760F1CB1EE2D00CD09A0 /* Coord.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Coord.h; sourceTree = "<group>"; };
+		B8A376101CC50A6400CD09A0 /* UI.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = UI.cpp; sourceTree = "<group>"; };
+		B8A376111CC50A6400CD09A0 /* UI.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = UI.hpp; sourceTree = "<group>"; };
 		B8BE4B0F1CA1B8A300DEF65D /* Animation.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Animation.cpp; sourceTree = "<group>"; };
 		B8BE4B121CA1BB6800DEF65D /* Animation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Animation.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -376,6 +379,8 @@
 				B859114318CE5BC500D31265 /* GameState.cpp */,
 				B859114418CE5BC500D31265 /* GameState.h */,
 				B8A00AC818D97B7600885742 /* GameLevel.cpp */,
+				B8A376101CC50A6400CD09A0 /* UI.cpp */,
+				B8A376111CC50A6400CD09A0 /* UI.hpp */,
 				B8A00AC918D97B7600885742 /* GameLevel.h */,
 				B859114518CE5BC500D31265 /* Inventory.cpp */,
 				B859114618CE5BC500D31265 /* Inventory.h */,
@@ -678,6 +683,7 @@
 				B859115B18CE5BC500D31265 /* Monster.cpp in Sources */,
 				B859116718CEA63800D31265 /* MenuState.cpp in Sources */,
 				B859115D18CE5BC500D31265 /* State.cpp in Sources */,
+				B8A376121CC50A6400CD09A0 /* UI.cpp in Sources */,
 				B8A00AD118D99D5000885742 /* GameEngine.cpp in Sources */,
 				B8A00ACA18D97B7600885742 /* GameLevel.cpp in Sources */,
 				B859115818CE5BC500D31265 /* Item.cpp in Sources */,

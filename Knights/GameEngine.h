@@ -2,6 +2,7 @@
 #define GAMEENGINE_H
 
 #include <allegro5/allegro.h>
+#include <allegro5/allegro_ttf.h>
 #include <vector>
 #include "State.h"
 
@@ -48,6 +49,8 @@ public:
         }
         return *m_instance;
     }
+    
+    ALLEGRO_FONT* defaultFont;
     
 private:
     static std::unique_ptr<GameEngine> m_instance;

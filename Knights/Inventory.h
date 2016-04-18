@@ -29,7 +29,7 @@ public:
     void moveSelectorRight(void);
     void moveSelectorLeft(void);
     
-    void drawInventory(GameEngine *gameEngine, int equippedItem, ALLEGRO_FONT* mainFont);
+    void drawInventory(int equippedItem);
     ALLEGRO_BITMAP* getDrawnInventory(void) { return cachedInventoryDraw; };
     
 private:

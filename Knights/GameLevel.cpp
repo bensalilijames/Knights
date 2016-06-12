@@ -14,7 +14,7 @@ void GameLevel::loadLevel(int level, Player& player) {
 	{
 		for(int j = 0; j <=49; j++)
 		{
-            m_map[i].push_back(MapRegistry::getRegisteredSquare("grass")); //Sets up all squares to grassSquare initally
+            m_map[i].push_back(MapRegistry::getRegisteredSquare("grass")); //Sets up all squares to grassSquare initially
             m_mapUnderlay[i].push_back(MapRegistry::getRegisteredSquare("grass"));
 		}
 	}

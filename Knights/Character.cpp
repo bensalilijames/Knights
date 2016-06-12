@@ -71,7 +71,7 @@ void Character::updateAnimation()
     {
         if(m_currentDirection == Direction::North || m_currentDirection == Direction::NorthEast)
         {
-            //TODO: This would be better with an anim ID or name instead of an arbitary number
+            //TODO: This would be better with an anim ID or name instead of an arbitrary number
             setActiveAnimation(0);
         }
         else if(m_currentDirection == Direction::East || m_currentDirection == Direction::SouthEast)
